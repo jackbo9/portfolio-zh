@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陆俊彦 · UX 设计师</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f6f4f0;
+  --bg-warm:  #ede9e2;
+  --fg:       #18170f;
+  --fg-muted: #7a7670;
+  --fg-faint: #b8b4ac;
+  --accent:   #c0392b;
+  --line:     rgba(24,23,15,0.11);
+  --sans: 'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  --serif:'Noto Serif SC','STSong',serif;
+  --latin:'Cormorant Garamond',serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* 自定义光标 */
+.cur{width:7px;height:7px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;}
+.cur-ring{width:28px;height:28px;border:1px solid var(--fg);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:.3;transition:width .18s,height .18s,opacity .18s;display:none;}
+@media(hover:hover)and(pointer:fine){body,body a,body button{cursor:none;}.cur,.cur-ring{display:block;}}
+
+/* 导航 */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 52px;display:flex;justify-content:space-between;align-items:center;transition:background .3s,box-shadow .3s;}
+nav.scrolled{background:rgba(246,244,240,.94);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);}
+.nav-logo{font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--fg);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:13px;letter-spacing:.05em;color:var(--fg-muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--fg);}
+.nav-toggle{display:none;border:0;background:transparent;font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--fg);}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+/* 英雄区 — 普通全屏 section，无 sticky，无 JS 控制可见性 */
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px 52px 80px;position:relative;overflow:hidden;}
+.hero-deco{position:absolute;pointer-events:none;user-select:none;font-family:var(--latin);font-style:italic;font-weight:300;color:var(--fg);}
+.hd1{font-size:clamp(72px,13vw,180px);top:4%;right:-2%;opacity:.035;}
+.hd2{font-size:clamp(40px,6vw,100px);bottom:10%;left:0%;opacity:.05;}
+.hd3{font-size:clamp(28px,4vw,68px);top:40%;right:10%;opacity:.04;}
+.hero-inner{width:100%;max-width:1120px;}
+
+/* 红色竖线入场 */
+.hero-rule{width:2px;height:52px;background:var(--accent);margin-bottom:24px;animation:ruleIn .6s .1s cubic-bezier(.76,0,.24,1) both;}
+@keyframes ruleIn{from{transform:scaleY(0);transform-origin:top}to{transform:scaleY(1);transform-origin:top}}
+
+/* 所有英雄文字直接用 CSS animation，不依赖 JS class */
+.h-name{font-family:var(--sans);font-weight:700;font-size:clamp(64px,10vw,144px);letter-spacing:-.04em;line-height:.92;color:var(--fg);display:block;animation:fadeUp .7s .15s ease both;}
+.h-en{font-family:var(--latin);font-style:italic;font-weight:300;font-size:clamp(18px,2.2vw,30px);color:var(--fg-muted);margin-top:10px;display:block;animation:fadeUp .6s .3s ease both;}
+.h-title{font-size:clamp(11px,1vw,14px);letter-spacing:.22em;color:var(--fg-muted);margin-top:18px;display:block;text-transform:uppercase;animation:fadeUp .6s .4s ease both;}
+.h-location{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.12em;color:var(--fg-faint);margin-top:12px;animation:fadeUp .6s .5s ease both;}
+.h-location::before{content:'';display:block;width:24px;height:1px;background:var(--fg-faint);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* 英雄详情 */
+.hero-detail{display:grid;grid-template-columns:1fr 1fr;gap:56px;max-width:1020px;margin-top:60px;animation:fadeUp .7s .65s ease both;}
+.hero-about-label,.hero-exp-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;}
+.hero-about-text{font-family:var(--serif);font-size:clamp(16px,1.7vw,21px);line-height:1.9;color:var(--fg);}
+.hero-exp-item{display:grid;grid-template-columns:128px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line);}
+.hero-exp-item:last-child{border-bottom:1px solid var(--line);}
+.exp-period{font-size:11px;color:var(--fg-faint);letter-spacing:.06em;padding-top:2px;}
+.exp-role{font-weight:600;font-size:14px;}
+.exp-co{font-family:var(--latin);font-style:italic;font-size:14px;color:var(--fg-muted);margin-top:2px;}
+
+/* 滚动提示 */
+.scroll-hint{position:absolute;bottom:36px;right:52px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.28;}
+.scroll-hint span{font-size:9px;letter-spacing:.18em;writing-mode:vertical-rl;}
+.scroll-line{width:1px;height:40px;background:var(--fg);transform-origin:top;animation:pulse 1.9s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scaleY(.2);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+/* 跑马灯 */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;}
+.marquee-track{display:flex;animation:marquee 28s linear infinite;width:max-content;}
+.marquee-item{font-family:var(--latin);font-style:italic;font-size:15px;color:var(--fg-faint);padding:0 36px;white-space:nowrap;display:flex;align-items:center;gap:36px;}
+.marquee-item::after{content:'·';font-size:18px;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* 通用 section */
+section{padding:112px 52px;}
+.section-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:56px;display:flex;align-items:center;gap:14px;}
+.section-label::after{content:'';flex:1;max-width:72px;height:1px;background:var(--line);}
+
+/* 项目列表 */
+#work{background:var(--bg);padding-top:80px;}
+.project-list{display:flex;flex-direction:column;}
+.project-card{display:grid;grid-template-columns:64px 1fr auto 56px;align-items:center;gap:36px;padding:28px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--fg);position:relative;overflow:hidden;}
+.project-card:last-child{border-bottom:1px solid var(--line);}
+.project-card::before{content:'';position:absolute;inset:0;background:var(--fg);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.76,0,.24,1);z-index:0;}
+.project-card:hover::before{transform:scaleY(1);}
+.project-card>*{position:relative;z-index:1;transition:color .36s cubic-bezier(.76,0,.24,1);}
+.project-card:hover .project-num,.project-card:hover .project-title,.project-card:hover .project-sub,.project-card:hover .project-arrow{color:var(--bg);}
+.project-card:hover .project-tag{border-color:rgba(246,244,240,.2);color:rgba(246,244,240,.5);}
+.project-num{font-size:11px;color:var(--fg-faint);letter-spacing:.08em;}
+.project-title{font-weight:700;font-size:clamp(19px,2.4vw,30px);letter-spacing:-.01em;}
+.project-sub{font-family:var(--serif);font-size:14px;color:var(--fg-muted);margin-top:4px;line-height:1.6;}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;}
+.project-tag{font-size:11px;letter-spacing:.04em;padding:4px 10px;border:1px solid var(--line);color:var(--fg-muted);transition:border-color .36s,color .36s;}
+.project-arrow{font-size:18px;color:var(--fg-faint);text-align:right;transition:transform .28s cubic-bezier(.76,0,.24,1);}
+.project-card:hover .project-arrow{transform:translateX(5px);}
+
+/* 技能与经历 */
+#skills{background:var(--bg-warm);}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.skills-intro{font-family:var(--serif);font-size:clamp(17px,1.8vw,23px);line-height:1.9;color:var(--fg);margin-bottom:40px;}
+.skills-intro em{font-style:normal;color:var(--accent);}
+.skill-group{margin-bottom:36px;}
+.skill-group-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+.skill-tags{display:flex;flex-wrap:wrap;gap:7px;}
+.skill-tag{font-size:12px;letter-spacing:.03em;padding:5px 12px;border:1px solid var(--line);color:var(--fg-muted);border-radius:2px;transition:border-color .2s,color .2s;}
+.skill-tag:hover{border-color:var(--accent);color:var(--accent);}
+.exp-section-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:20px;}
+.exp-item{display:grid;grid-template-columns:180px 1fr;gap:40px;padding:32px 0;border-top:1px solid var(--line);transition:opacity .28s;}
+.exp-item:hover{opacity:.6;}
+.exp-date{font-size:11px;color:var(--fg-faint);letter-spacing:.06em;}
+.exp-company{font-size:11px;color:var(--fg-muted);margin-top:4px;}
+.exp-title{font-weight:600;font-size:15px;color:var(--fg);}
+.exp-desc{font-family:var(--serif);font-size:15px;line-height:1.85;color:var(--fg-muted);margin-top:8px;}
+
+/* 教育背景 */
+#education{background:var(--bg);}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.edu-card{padding:32px;border:1px solid var(--line);background:var(--bg-warm);border-radius:8px;transition:box-shadow .25s;}
+.edu-card:hover{box-shadow:0 4px 20px rgba(24,23,15,.07);}
+.edu-degree{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.edu-school{font-weight:700;font-size:17px;letter-spacing:-.01em;}
+.edu-school-en{font-family:var(--latin);font-style:italic;font-size:14px;color:var(--fg-muted);margin-top:3px;}
+.edu-period{font-size:11px;color:var(--fg-faint);margin-top:10px;letter-spacing:.06em;}
+.edu-detail{font-family:var(--serif);font-size:14px;line-height:1.85;color:var(--fg-muted);margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+
+/* 联系 */
+#contact{background:var(--fg);color:var(--bg);min-height:75vh;display:flex;flex-direction:column;justify-content:space-between;padding:112px 52px 56px;}
+.contact-hed{font-family:var(--serif);font-weight:300;font-size:clamp(44px,6.5vw,100px);line-height:1.05;color:var(--bg);max-width:760px;}
+.contact-hed span{color:var(--accent);}
+.contact-links{display:flex;gap:48px;margin-top:60px;flex-wrap:wrap;}
+.contact-link{text-decoration:none;display:flex;flex-direction:column;gap:5px;transition:opacity .2s;}
+.contact-link:hover{opacity:.5;}
+.cl-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,244,240,.3);}
+.cl-value{font-size:15px;font-weight:500;color:var(--bg);}
+.footer-row{display:flex;justify-content:space-between;align-items:flex-end;padding-top:72px;margin-top:72px;border-top:1px solid rgba(246,244,240,.08);}
+.footer-copy{font-size:10px;letter-spacing:.08em;color:rgba(246,244,240,.2);}
+.footer-sig{font-family:var(--serif);font-style:italic;font-size:13px;color:rgba(246,244,240,.22);}
+
+/* 滚动揭示 */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+/* 响应式 */
+@media(max-width:900px){
+  nav{padding:16px 20px;}
+  .nav-toggle{display:inline-flex;align-items:center;}
+  .nav-links{position:absolute;top:calc(100% + 8px);right:20px;left:20px;padding:14px 18px;background:rgba(246,244,240,.97);border:1px solid var(--line);display:none;flex-direction:column;gap:14px;}
+  .nav-links.open{display:flex;}
+  #hero{padding:100px 20px 60px;}
+  .scroll-hint{right:20px;bottom:20px;}
+  section{padding:80px 20px;}
+  #contact{padding:80px 20px 48px;}
+  .hero-detail{grid-template-columns:1fr;gap:28px;margin-top:36px;}
+  .skills-grid{grid-template-columns:1fr;gap:40px;}
+  .exp-item{grid-template-columns:1fr;gap:12px;}
+  .edu-grid{grid-template-columns:1fr;}
+  .project-card{grid-template-columns:44px 1fr auto;gap:12px;padding:20px 0;align-items:start;}
+  .project-tags{grid-column:1/-1;justify-content:flex-start;}
+  .contact-links{gap:28px;}
+  .footer-row{flex-direction:column;gap:12px;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- 导航 -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">陆俊彦</a>
+  <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">菜单</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#work">作品</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#education">教育</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- 英雄区 -->
+<section id="hero">
+  <span class="hero-deco hd1" aria-hidden="true">Design</span>
+  <span class="hero-deco hd2" aria-hidden="true">Research</span>
+  <span class="hero-deco hd3" aria-hidden="true">Systems</span>
+
+  <div class="hero-inner">
+    <div class="hero-rule"></div>
+    <span class="h-name">陆俊彦</span>
+    <span class="h-en">Junyan Lu</span>
+    <span class="h-title">用户体验设计 · 产品设计 · 用户研究</span>
+    <span class="h-location">米兰，意大利 &nbsp;·&nbsp; 开放机会</span>
+
+    <div class="hero-detail" id="about">
+      <div>
+        <div class="hero-about-label">关于</div>
+        <p class="hero-about-text">UX 设计师，服务设计背景，擅长将用户研究洞察转化为清晰的交互与界面决策，覆盖从发现到验证的全流程。在原型设计、信息架构与跨职能协作方面经验丰富。</p>
+      </div>
+      <div>
+        <div class="hero-exp-label">工作经历</div>
+        <div class="hero-exp-item">
+          <div class="exp-period">2025.02 — 2025.07</div>
+          <div><div class="exp-role">UX &amp; 产品设计实习生</div><div class="exp-co">DI Works · 米兰，意大利</div></div>
+        </div>
+        <div class="hero-exp-item">
+          <div class="exp-period">2022.12 — 2023.07</div>
+          <div><div class="exp-role">用户体验策略实习生</div><div class="exp-co">博世电动工具 · 上海，中国</div></div>
+        </div>
+        <div class="hero-exp-item">
+          <div class="exp-period">2022.06 — 2022.09</div>
+          <div><div class="exp-role">用户与趋势研究实习生</div><div class="exp-co">Temimu 创业孵化器 · 上海，中国</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span>向下滚动</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- 跑马灯 -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">UX Design</span>
+    <span class="marquee-item">Service Design</span>
+    <span class="marquee-item">User Research</span>
+    <span class="marquee-item">Prototyping</span>
+    <span class="marquee-item">Information Architecture</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Co-design</span>
+    <span class="marquee-item">Systems Thinking</span>
+    <span class="marquee-item">UX Design</span>
+    <span class="marquee-item">Service Design</span>
+    <span class="marquee-item">User Research</span>
+    <span class="marquee-item">Prototyping</span>
+    <span class="marquee-item">Information Architecture</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Co-design</span>
+    <span class="marquee-item">Systems Thinking</span>
+  </div>
+</div>
+
+<!-- 精选作品 -->
+<section id="work">
+  <div class="section-label reveal">精选作品</div>
+  <div class="project-list">
+
+    <a href="project-uniplus-zh.html" class="project-card reveal" aria-label="查看案例：UniPlus 微认证平台">
+      <span class="project-num">01</span>
+      <div><div class="project-title">UniPlus</div><div class="project-sub">米兰理工大学微认证平台</div></div>
+      <div class="project-tags"><span class="project-tag">UX 设计</span><span class="project-tag">服务设计</span><span class="project-tag">课程项目</span></div>
+      <span class="project-arrow">→</span>
+    </a>
+
+    <a href="project-promap-zh.html" class="project-card reveal d1" aria-label="查看案例：Promap 建筑工人职业发展平台">
+      <span class="project-num">02</span>
+      <div><div class="project-title">Promap</div><div class="project-sub">建筑工人职业发展数字平台</div></div>
+      <div class="project-tags"><span class="project-tag">UX 设计</span><span class="project-tag">用户研究</span><span class="project-tag">实习项目</span></div>
+      <span class="project-arrow">→</span>
+    </a>
+
+    <a href="project-kiss-kitty-zh.html" class="project-card reveal d2" aria-label="查看案例：Kiss Kitty 猫咪健康监测服务">
+      <span class="project-num">03</span>
+      <div><div class="project-title">Kiss Kitty</div><div class="project-sub">IoT 猫咪健康行为监测服务</div></div>
+      <div class="project-tags"><span class="project-tag">服务设计</span><span class="project-tag">原型设计</span><span class="project-tag">个人项目</span></div>
+      <span class="project-arrow">→</span>
+    </a>
+
+    <a href="project-tangity-tribe-zh.html" class="project-card reveal d3" aria-label="查看案例：Tangity Tribe 员工入职仪式设计">
+      <span class="project-num">04</span>
+      <div><div class="project-title">Tangity Tribe</div><div class="project-sub">NTT Data / Tangity 员工入职仪式体验设计</div></div>
+      <div class="project-tags"><span class="project-tag">服务设计</span><span class="project-tag">共创工作坊</span><span class="project-tag">课程项目</span></div>
+      <span class="project-arrow">→</span>
+    </a>
+
+    <a href="https://sound-mirror-app.vercel.app/" class="project-card reveal d4" target="_blank" rel="noopener noreferrer" aria-label="查看 Mini 项目：Sound Mirror App">
+      <span class="project-num">M1</span>
+      <div><div class="project-title">Sound Mirror App</div><div class="project-sub">Vibe Coding 交互式 Web App 原型</div></div>
+      <div class="project-tags"><span class="project-tag">Web App</span><span class="project-tag">Vibe Coding</span></div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <a href="https://jackbo9.github.io/caffeine-check/" class="project-card reveal d4" target="_blank" rel="noopener noreferrer" aria-label="查看 Mini 项目：Caffeine Check 咖啡因追踪工具">
+      <span class="project-num">M2</span>
+      <div><div class="project-title">Caffeine Check</div><div class="project-sub">咖啡因摄入量查询与追踪 Web 工具</div></div>
+      <div class="project-tags"><span class="project-tag">Web App</span><span class="project-tag">Vibe Coding</span><span class="project-tag">最新</span></div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- 技能与经历 -->
+<section id="skills">
+  <div class="section-label reveal">技能与经历</div>
+  <div class="skills-grid">
+    <div>
+      <p class="skills-intro reveal">我覆盖完整设计流程——从<em>早期探索发现</em>到<em>高保真交付输出</em>。</p>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">设计</div>
+        <div class="skill-tags">
+          <span class="skill-tag">UX 设计</span><span class="skill-tag">服务设计</span><span class="skill-tag">交互设计</span>
+          <span class="skill-tag">信息架构</span><span class="skill-tag">原型设计</span><span class="skill-tag">线框图</span>
+          <span class="skill-tag">共创设计</span><span class="skill-tag">系统思维</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d1">
+        <div class="skill-group-title">研究</div>
+        <div class="skill-tags">
+          <span class="skill-tag">用户访谈</span><span class="skill-tag">桌面研究</span><span class="skill-tag">趋势分析</span>
+          <span class="skill-tag">用户画像</span><span class="skill-tag">旅程地图</span><span class="skill-tag">竞品分析</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d2">
+        <div class="skill-group-title">工具</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Figma</span><span class="skill-tag">Miro</span><span class="skill-tag">Adobe CC</span>
+          <span class="skill-tag">Notion</span><span class="skill-tag">ProtoPie</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="exp-section-label">工作经历</div>
+      <div class="exp-item reveal">
+        <div><div class="exp-date">2025.02 — 2025.07</div><div class="exp-company">DI Works · 米兰，意大利</div></div>
+        <div>
+          <div class="exp-title">UX &amp; 产品设计实习生</div>
+          <div class="exp-desc">将研究洞察转化为用户流程、线框图及高保真原型，服务于跨行业 R&amp;D 项目。主导 AI 驱动内部产品的用例探索，参与 NFC / DPP 体验研究，推动数字产品品牌保护方向的落地设计。</div>
+        </div>
+      </div>
+      <div class="exp-item reveal d1">
+        <div><div class="exp-date">2022.12 — 2023.07</div><div class="exp-company">博世电动工具 · 上海，中国</div></div>
+        <div>
+          <div class="exp-title">用户体验策略实习生</div>
+          <div class="exp-desc">主导用户研究，完成 20+ 次深度访谈，提炼核心需求并构建 5 个用户画像。组织跨职能概念工作坊，将研究洞察转化为数字产品与 UX 策略的可执行输入。</div>
+        </div>
+      </div>
+      <div class="exp-item reveal d2">
+        <div><div class="exp-date">2022.06 — 2022.09</div><div class="exp-company">Temimu 创业孵化器 · 上海，中国</div></div>
+        <div>
+          <div class="exp-title">用户与趋势研究实习生</div>
+          <div class="exp-desc">针对 23—35 岁城市生活群体开展消费趋势分析，精准识别市场机会点。执行 10+ 次深度访谈及焦点小组，为早期概念框架提供决策导向输入。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 教育背景 -->
+<section id="education">
+  <div class="section-label reveal">教育背景</div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-degree">硕士</div>
+      <div class="edu-school">米兰理工大学</div>
+      <div class="edu-school-en">Politecnico di Milano — 设计学院</div>
+      <div class="edu-period">2023.09 — 2025.12</div>
+      <div class="edu-detail">产品系统服务设计硕士<br>QS 综合排名 #96 · QS 艺术与设计排名 #5<br>毕业论文成绩：110/110</div>
+    </div>
+    <div class="edu-card reveal d1">
+      <div class="edu-degree">学士</div>
+      <div class="edu-school">同济大学</div>
+      <div class="edu-school-en">Tongji University — 设计创意学院</div>
+      <div class="edu-period">2019.09 — 2023.06</div>
+      <div class="edu-detail">工业设计学士</div>
+    </div>
+  </div>
+</section>
+
+<!-- 联系 -->
+<section id="contact">
+  <div>
+    <p class="contact-hed reveal">期待与你<br>一起创造<span>。</span></p>
+    <div class="contact-links">
+      <a href="mailto:iamjunyan.lu@gmail.com" class="contact-link reveal">
+        <span class="cl-label">邮件</span><span class="cl-value">iamjunyan.lu@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/junyan-lu-555b57255/" class="contact-link reveal d1" target="_blank" rel="noopener noreferrer">
+        <span class="cl-label">LinkedIn</span><span class="cl-value">Junyan Lu →</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1uUonY5zgx4MSOBT3mfLd86KMYMxzJN84/view?usp=sharing" class="contact-link reveal d2" target="_blank" rel="noopener noreferrer">
+        <span class="cl-label">简历下载</span><span class="cl-value">Download CV →</span>
+      </a>
+      <a href="#hero" class="contact-link reveal d3">
+        <span class="cl-label">所在地</span><span class="cl-value">米兰，意大利</span>
+      </a>
+    </div>
+  </div>
+  <div class="footer-row">
+    <span class="footer-copy">© 2026 陆俊彦 · 保留所有权利</span>
+    <span class="footer-sig">Designed with intention.</span>
+  </div>
+</section>
+
+<script>
+/* 自定义光标 */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('curRing');
+if (window.matchMedia('(hover:hover) and (pointer:fine)').matches && cur && ring) {
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cur.style.transform=`translate(calc(${mx}px - 50%),calc(${my}px - 50%))`;
+  });
+  (function loop(){
+    rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+    ring.style.transform=`translate(calc(${rx}px - 50%),calc(${ry}px - 50%))`;
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px';ring.style.opacity='.18';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px';ring.style.opacity='.3';});
+  });
+}
+
+/* 汉堡菜单 */
+const toggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  toggle.setAttribute('aria-expanded','false');
+}));
+
+/* 导航背景 */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* 背景装饰字视差 */
+const decos = document.querySelectorAll('.hero-deco');
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  decos.forEach(el => { el.style.transform=`translateY(${sy*.15}px)`; });
+}, {passive:true});
+
+/* 滚动揭示 */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.08, rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

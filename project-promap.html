@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promap · 案例研究 · 陆俊彦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4f0; --bg-warm: #ede9e2; --fg: #18170f;
+    --fg-muted: #7a7670; --fg-faint: #b8b4ac; --accent: #c0392b;
+    --line: rgba(24,23,15,0.11);
+    --font-sans: 'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+    --font-serif: 'Noto Serif SC','STSong',serif;
+    --font-latin: 'Cormorant Garamond',serif;
+    --radius: 8px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:15px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  .cursor{width:7px;height:7px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;}
+  .cursor-ring{width:28px;height:28px;border:1px solid var(--fg);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.3;transition:width 0.18s,height 0.18s,opacity 0.18s;display:none;}
+  @media(hover:hover)and(pointer:fine){body{cursor:none;}body a,body button,body summary{cursor:none;}.cursor,.cursor-ring{display:block;}}
+  .case-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .bg-word{position:absolute;font-family:var(--font-latin);font-style:italic;font-weight:300;color:var(--fg);user-select:none;will-change:transform;}
+  .bw1{top:6%;right:-1%;font-size:clamp(52px,9vw,116px);opacity:0.04;}
+  .bw2{top:44%;left:0%;font-size:clamp(34px,5.5vw,82px);opacity:0.03;}
+  .bw3{bottom:8%;right:5%;font-size:clamp(28px,4.5vw,68px);opacity:0.03;}
+  .wrap{max-width:1000px;margin:0 auto;padding:36px 32px 96px;position:relative;z-index:1;}
+  .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:52px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+  .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--fg-muted);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+  .back:hover{color:var(--fg);}
+  .back::before{content:'←';font-size:14px;}
+  .case-num{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-faint);}
+  .case-label{display:inline-block;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  .case-title{font-family:var(--font-sans);font-weight:700;font-size:clamp(40px,7vw,86px);letter-spacing:-0.03em;line-height:0.95;color:var(--fg);}
+  .case-sub{margin-top:16px;font-family:var(--font-serif);font-size:clamp(18px,2.4vw,26px);color:var(--fg-muted);max-width:720px;line-height:1.7;}
+  .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{border:1px solid var(--line);padding:5px 12px;font-size:12px;color:var(--fg-muted);border-radius:2px;letter-spacing:0.03em;}
+  .section{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);}
+  .section-h{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+  .section-h::after{content:'';flex:1;max-width:48px;height:1px;background:var(--line);}
+  .summary{font-family:var(--font-serif);font-size:17px;line-height:1.9;color:var(--fg);max-width:860px;margin-top:12px;}
+  .img-frame{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-warm);}
+  .img-frame img{display:block;width:100%;height:auto;}
+  .img-note{padding:10px 14px;font-size:12px;color:var(--fg-muted);border-top:1px solid var(--line);background:#f9f7f3;letter-spacing:0.02em;line-height:1.6;}
+  .gallery{margin-top:18px;display:grid;gap:14px;grid-template-columns:1fr;}
+  @media(min-width:680px){.gallery{grid-template-columns:1fr 1fr;}.wide{grid-column:1/-1;}}
+  .detail-block{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#faf8f4;}
+  .detail-block>summary{list-style:none;padding:13px 16px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-muted);cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid transparent;transition:background 0.2s;}
+  .detail-block>summary::-webkit-details-marker{display:none;}
+  .detail-block>summary::after{content:'+';font-size:16px;color:var(--fg-faint);transition:transform 0.2s;}
+  .detail-block[open]>summary{border-bottom-color:var(--line);background:#f6f4f0;}
+  .detail-block[open]>summary::after{transform:rotate(45deg);}
+  .detail-inner{padding:16px;}
+
+  /* 阶段标题 */
+  .phase-header{
+    display:flex;align-items:center;gap:16px;
+    margin-bottom:18px;
+  }
+  .phase-badge{
+    background:var(--accent);color:#fff;
+    font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:2px;white-space:nowrap;
+  }
+  .phase-title{
+    font-weight:700;font-size:18px;letter-spacing:-0.01em;
+  }
+
+  /* 列表 */
+  .prose-list{margin-top:10px;padding-left:0;list-style:none;}
+  .prose-list li{
+    font-family:var(--font-serif);font-size:16px;line-height:1.85;
+    color:var(--fg-muted);padding:6px 0 6px 20px;
+    border-bottom:1px solid var(--line);position:relative;
+  }
+  .prose-list li::before{content:'·';position:absolute;left:4px;color:var(--accent);}
+
+  .case-nav{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .case-nav a{text-decoration:none;color:var(--fg-muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
+  .case-nav a:hover{color:var(--fg);}
+  .case-nav .next::after{content:' →';}
+  .case-nav .prev::before{content:'← ';}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .d1{transition-delay:0.08s;}.d2{transition-delay:0.16s;}.d3{transition-delay:0.24s;}
+  @media(max-width:680px){.wrap{padding:24px 18px 72px;}.case-title{font-size:clamp(36px,10vw,56px);}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="case-bg" aria-hidden="true">
+  <span class="bg-word bw1" data-speed="0.14">Case Study</span>
+  <span class="bg-word bw2" data-speed="0.2">Research</span>
+  <span class="bg-word bw3" data-speed="0.1">Design</span>
+</div>
+
+<main class="wrap">
+  <div class="top-bar reveal">
+    <a class="back" href="index-zh.html#work">返回首页</a>
+    <span class="case-num">案例研究 02</span>
+  </div>
+
+  <div class="case-hero">
+    <span class="case-label reveal">UX 设计 · 用户研究</span>
+    <h1 class="case-title reveal">Promap</h1>
+    <p class="case-sub reveal">建筑工人职业发展数字平台</p>
+    <div class="meta reveal d1">
+      <span class="tag">UX 设计</span>
+      <span class="tag">用户研究</span>
+      <span class="tag">课程 + 实习</span>
+      <span class="tag">真实项目</span>
+    </div>
+  </div>
+
+  <!-- 背景 -->
+  <section class="section">
+    <div class="section-h">背景</div>
+    <p class="summary reveal">
+      Promap 是一个致力于革新工人职业发展路径、提升社会认可度的数字平台。通过综合技能图谱，平台从职业起点开始伴随用户成长，将他们与合适的导师连接，并创造与同伴共同学习的机会。最重要的是，Promap 帮助工人向潜在雇主清晰展示自身技能，确保他们获得应有的认可与机会。
+    </p>
+  </section>
+
+  <!-- 第一阶段：学校项目 -->
+  <section class="section">
+    <div class="section-h">第一阶段</div>
+    <div class="phase-header reveal">
+      <span class="phase-badge">课程项目</span>
+      <span class="phase-title">研究探索与原型设计</span>
+    </div>
+    <p class="summary reveal">
+      本阶段聚焦于用户研究、旅程定义、信息架构、线框图与原型设计，完成了连贯的概念雏形。
+    </p>
+
+    <div class="img-frame reveal d1">
+      <img src="assets/promap/school-research.jpg" alt="学校阶段研究">
+      <div class="img-note">图 1. 课程阶段研究综合与初步用户洞察。</div>
+    </div>
+    <div class="img-frame reveal d2">
+      <img src="assets/promap/school-journey.jpg" alt="用户旅程地图">
+      <div class="img-note">图 2. 覆盖各阶段情绪、痛点与机会点的用户旅程地图。</div>
+    </div>
+    <div class="gallery reveal d3">
+      <div class="img-frame">
+        <img src="assets/promap/school-wireframe-ia.jpg" alt="线框图与信息架构">
+        <div class="img-note">图 3. 核心产品流程的线框图与信息架构。</div>
+      </div>
+      <div class="img-frame">
+        <img src="assets/promap/school-prototype.jpg" alt="原型界面">
+        <div class="img-note">图 4. 高保真原型与界面方向。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二阶段：实习深化 -->
+  <section class="section">
+    <div class="section-h">第二阶段</div>
+    <div class="phase-header reveal">
+      <span class="phase-badge">实习项目</span>
+      <span class="phase-title">Promap × 博世：深化研究与策略规划</span>
+    </div>
+    <p class="summary reveal">
+      实习阶段（Promap × Bosch）将重心转移至更深入的用户研究、用户画像策略、旅程验证、MVP 定义与产品路线图规划。
+    </p>
+
+    <details class="detail-block reveal d1" open>
+      <summary>用户研究：我们做了什么</summary>
+      <div class="detail-inner">
+        <ul class="prose-list">
+          <li>对不同岗位类型、年龄段及职业阶段的工人进行访谈。</li>
+          <li>将访谈数据分析拆解为职业维度、优先级与关系模式。</li>
+          <li>将研究发现转化为决策支持与内容架构的产品需求。</li>
+        </ul>
+        <div class="gallery">
+          <div class="img-frame">
+            <img src="assets/promap/intern-interviews.jpg" alt="访谈样本">
+            <div class="img-note">图 5. 访谈样本与数据收集范围。</div>
+          </div>
+          <div class="img-frame">
+            <img src="assets/promap/intern-analysis.jpg" alt="数据分析">
+            <div class="img-note">图 6. 数据分析与访谈维度提炼。</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="detail-block reveal d2">
+      <summary>五类用户画像 + 旅程地图</summary>
+      <div class="detail-inner">
+        <div class="gallery">
+          <div class="img-frame">
+            <img src="assets/promap/intern-personas.jpg" alt="五类用户画像">
+            <div class="img-note">图 7. 用于细分与优先级决策的五类用户画像。</div>
+          </div>
+          <div class="img-frame">
+            <img src="assets/promap/intern-journey-map.jpg" alt="职业地图与旅程地图">
+            <div class="img-note">图 8. 连接职业发展阶段与用户需求的旅程地图。</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="detail-block reveal d3">
+      <summary>MVP 定义与产品路线图</summary>
+      <div class="detail-inner">
+        <div class="img-frame wide">
+          <img src="assets/promap/intern-mvp-roadmap.jpg" alt="MVP 与路线图">
+          <div class="img-note">图 13. MVP 范围定义与分阶段扩展路线图。</div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 成果 -->
+  <section class="section">
+    <div class="section-h">项目成果</div>
+    <p class="summary reveal">
+      Promap 完成了从课程概念到真实项目落地的完整设计闭环——跨越两个阶段，在研究深度、策略清晰度与原型完成度上均达到了可交付的水准，并为后续产品迭代提供了扎实的研究基础。
+    </p>
+  </section>
+
+  <div class="case-nav reveal">
+    <a class="prev" href="project-uniplus-zh.html">上一个：UniPlus</a>
+    <a class="next" href="project-kiss-kitty-zh.html">下一个：Kiss Kitty</a>
+  </div>
+</main>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const hasFine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+let mx=0,my=0,rx=0,ry=0;
+if(hasFine&&cursor&&ring){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(calc(${mx}px - 50%),calc(${my}px - 50%))`;});
+  (function a(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.transform=`translate(calc(${rx}px - 50%),calc(${ry}px - 50%))`;requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button,summary').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px';ring.style.opacity='0.18';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px';ring.style.opacity='0.3';});
+  });
+}
+window.addEventListener('scroll',()=>{const sy=window.scrollY;document.querySelectorAll('.bg-word').forEach(el=>{el.style.transform=`translateY(${sy*parseFloat(el.dataset.speed||'0.14')}px)`;});},{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.07,rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

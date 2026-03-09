@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiss Kitty · 案例研究 · 陆俊彦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f6f4f0;--bg-warm:#ede9e2;--fg:#18170f;--fg-muted:#7a7670;--fg-faint:#b8b4ac;--accent:#c0392b;--line:rgba(24,23,15,0.11);--font-sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;--font-serif:'Noto Serif SC','STSong',serif;--font-latin:'Cormorant Garamond',serif;--radius:8px;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:15px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  .cursor{width:7px;height:7px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;}
+  .cursor-ring{width:28px;height:28px;border:1px solid var(--fg);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.3;transition:width 0.18s,height 0.18s,opacity 0.18s;display:none;}
+  @media(hover:hover)and(pointer:fine){body{cursor:none;}body a,body button,body summary{cursor:none;}.cursor,.cursor-ring{display:block;}}
+  .case-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .bg-word{position:absolute;font-family:var(--font-latin);font-style:italic;font-weight:300;color:var(--fg);user-select:none;will-change:transform;}
+  .bw1{top:6%;right:-1%;font-size:clamp(52px,9vw,116px);opacity:0.04;}
+  .bw2{top:44%;left:0%;font-size:clamp(34px,5.5vw,82px);opacity:0.03;}
+  .bw3{bottom:8%;right:5%;font-size:clamp(28px,4.5vw,68px);opacity:0.03;}
+  .wrap{max-width:1000px;margin:0 auto;padding:36px 32px 96px;position:relative;z-index:1;}
+  .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:52px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+  .back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--fg-muted);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+  .back:hover{color:var(--fg);}
+  .back::before{content:'←';font-size:14px;}
+  .case-num{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-faint);}
+  .case-label{display:inline-block;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  .case-title{font-family:var(--font-sans);font-weight:700;font-size:clamp(40px,7vw,86px);letter-spacing:-0.03em;line-height:0.95;color:var(--fg);}
+  .case-sub{margin-top:16px;font-family:var(--font-serif);font-size:clamp(18px,2.4vw,26px);color:var(--fg-muted);max-width:720px;line-height:1.7;}
+  .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{border:1px solid var(--line);padding:5px 12px;font-size:12px;color:var(--fg-muted);border-radius:2px;letter-spacing:0.03em;}
+  .section{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);}
+  .section-h{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+  .section-h::after{content:'';flex:1;max-width:48px;height:1px;background:var(--line);}
+  .summary{font-family:var(--font-serif);font-size:17px;line-height:1.9;color:var(--fg);max-width:860px;margin-top:12px;}
+  .img-frame{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-warm);}
+  .img-frame img{display:block;width:100%;height:auto;}
+  .img-note{padding:10px 14px;font-size:12px;color:var(--fg-muted);border-top:1px solid var(--line);background:#f9f7f3;letter-spacing:0.02em;line-height:1.6;}
+  .gallery{margin-top:18px;display:grid;gap:14px;grid-template-columns:1fr;}
+  @media(min-width:680px){.gallery{grid-template-columns:1fr 1fr;}.wide{grid-column:1/-1;}}
+  .detail-block{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#faf8f4;}
+  .detail-block>summary{list-style:none;padding:13px 16px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-muted);cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid transparent;transition:background 0.2s;}
+  .detail-block>summary::-webkit-details-marker{display:none;}
+  .detail-block>summary::after{content:'+';font-size:16px;color:var(--fg-faint);transition:transform 0.2s;}
+  .detail-block[open]>summary{border-bottom-color:var(--line);background:#f6f4f0;}
+  .detail-block[open]>summary::after{transform:rotate(45deg);}
+  .detail-inner{padding:16px;}
+
+  /* 洞察卡片 */
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;}
+  @media(max-width:600px){.insight-grid{grid-template-columns:1fr;}}
+  .insight-card{padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-warm);}
+  .insight-icon{font-size:20px;margin-bottom:10px;}
+  .insight-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  .insight-text{font-family:var(--font-serif);font-size:15px;line-height:1.8;color:var(--fg-muted);}
+
+  .case-nav{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .case-nav a{text-decoration:none;color:var(--fg-muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
+  .case-nav a:hover{color:var(--fg);}
+  .case-nav .next::after{content:' →';}
+  .case-nav .prev::before{content:'← ';}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .d1{transition-delay:0.08s;}.d2{transition-delay:0.16s;}.d3{transition-delay:0.24s;}
+  @media(max-width:680px){.wrap{padding:24px 18px 72px;}.case-title{font-size:clamp(36px,10vw,56px);}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="case-bg" aria-hidden="true">
+  <span class="bg-word bw1" data-speed="0.14">Case Study</span>
+  <span class="bg-word bw2" data-speed="0.2">Research</span>
+  <span class="bg-word bw3" data-speed="0.1">Design</span>
+</div>
+
+<main class="wrap">
+  <div class="top-bar reveal">
+    <a class="back" href="index-zh.html#work">返回首页</a>
+    <span class="case-num">案例研究 03</span>
+  </div>
+
+  <div class="case-hero">
+    <span class="case-label reveal">服务设计 · 原型设计</span>
+    <h1 class="case-title reveal">Kiss Kitty</h1>
+    <p class="case-sub reveal">IoT 猫咪健康行为监测服务</p>
+    <div class="meta reveal d1">
+      <span class="tag">服务设计</span>
+      <span class="tag">UX 设计</span>
+      <span class="tag">原型设计</span>
+      <span class="tag">个人项目</span>
+    </div>
+  </div>
+
+  <!-- 背景 -->
+  <section class="section">
+    <div class="section-h">背景</div>
+    <p class="summary reveal">
+      Kiss Kitty 探索行为与日常活动数据如何帮助猫主人识别早期健康信号，从而在正确时机寻求专业医疗支持。
+    </p>
+  </section>
+
+  <!-- 问题 -->
+  <section class="section">
+    <div class="section-h">问题</div>
+    <p class="summary reveal">
+      猫咪疾病往往被晚期发现，因为行为变化极为细微且容易被忽视，而不同用户的观察质量也存在显著差异。
+    </p>
+
+    <!-- 洞察卡片 -->
+    <div class="insight-grid reveal d1">
+      <div class="insight-card">
+        <div class="insight-icon">🐱</div>
+        <div class="insight-label">核心洞察</div>
+        <div class="insight-text">猫咪善于掩盖不适，行为信号难以被日常观察捕捉，导致就医时机严重滞后。</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">📊</div>
+        <div class="insight-label">用户痛点</div>
+        <div class="insight-text">主人观察能力参差不齐，缺乏系统化的健康基线数据作为对比参照。</div>
+      </div>
+    </div>
+
+    <div class="gallery reveal d2">
+      <div class="img-frame">
+        <img src="assets/kiss-kitty/background.jpg" alt="背景研究">
+        <div class="img-note">图 1. 早期监测需求的背景与疾病情境研究。</div>
+      </div>
+      <div class="img-frame">
+        <img src="assets/kiss-kitty/research.jpg" alt="研究证据">
+        <div class="img-note">图 2. 猫主人观察行为的研究证据与痛点提炼。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 过程 -->
+  <section class="section">
+    <div class="section-h">设计过程</div>
+    <p class="summary reveal">
+      概念通过服务系统地图、交互流程与线框架构逐步转化，在建立原型方向之前完成了完整的设计推演。
+    </p>
+    <div class="gallery reveal d1">
+      <div class="img-frame">
+        <img src="assets/kiss-kitty/service-map.jpg" alt="服务系统地图">
+        <div class="img-note">图 3. 连接主人、产品、数据与医院的服务系统地图。</div>
+      </div>
+      <div class="img-frame">
+        <img src="assets/kiss-kitty/wireframe-ia.jpg" alt="线框图与信息架构">
+        <div class="img-note">图 4. 核心用户任务的信息架构与线框图。</div>
+      </div>
+    </div>
+    <details class="detail-block reveal d2">
+      <summary>查看概念与原型细节</summary>
+      <div class="detail-inner">
+        <div class="img-frame wide">
+          <img src="assets/kiss-kitty/concept-prototype.jpg" alt="概念生成与原型探索">
+          <div class="img-note">图 5. 概念生成、原型探索与产品形态方向。</div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 界面 -->
+  <section class="section">
+    <div class="section-h">界面设计</div>
+    <p class="summary reveal">
+      界面将活动规律、叫声趋势与风险指标进行可视化呈现，让日常健康信号对普通主人而言也易于理解与感知。
+    </p>
+    <div class="img-frame reveal d1">
+      <img src="assets/kiss-kitty/interface.jpg" alt="界面设计">
+      <div class="img-note">图 6. 监测、提醒与每日回顾的最终界面方向。</div>
+    </div>
+  </section>
+
+  <!-- 成果 -->
+  <section class="section">
+    <div class="section-h">项目成果</div>
+    <p class="summary reveal">
+      Kiss Kitty 定义了一套连贯的服务概念，将行为数据采集与可操作的健康洞察有机链接，有效提升了主人的早期意识与就医决策信心。
+    </p>
+  </section>
+
+  <div class="case-nav reveal">
+    <a class="prev" href="project-promap-zh.html">上一个：Promap</a>
+    <a class="next" href="project-tangity-tribe-zh.html">下一个：Tangity Tribe</a>
+  </div>
+</main>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const hasFine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+let mx=0,my=0,rx=0,ry=0;
+if(hasFine&&cursor&&ring){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(calc(${mx}px - 50%),calc(${my}px - 50%))`;});
+  (function a(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.transform=`translate(calc(${rx}px - 50%),calc(${ry}px - 50%))`;requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button,summary').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px';ring.style.opacity='0.18';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px';ring.style.opacity='0.3';});
+  });
+}
+window.addEventListener('scroll',()=>{const sy=window.scrollY;document.querySelectorAll('.bg-word').forEach(el=>{el.style.transform=`translateY(${sy*parseFloat(el.dataset.speed||'0.14')}px)`;});},{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.07,rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
