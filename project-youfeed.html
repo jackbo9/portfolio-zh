@@ -414,19 +414,21 @@
   <div class="case-hero">
     <span class="case-label reveal">UX 设计 | 产品设计 | 展会触点</span>
     <h1 class="case-title reveal">YouFeed</h1>
-    <p class="case-sub reveal">为展会场景重构一个语音优先、低摩擦的即时反馈入口，把线下触点接回可分析的数字反馈链路。</p>
+    <p class="case-sub reveal">为展会场景设计一个语音优先、低摩擦的即时反馈入口，把线下触点接回可分析的数字反馈链路。</p>
     <div class="meta reveal d1">
-      <span class="tag">实习项目重构</span>
+      <span class="tag">实习项目</span>
       <span class="tag">Voice-first</span>
       <span class="tag">Context-aware</span>
       <span class="tag">Touchpoint Design</span>
+      <span class="tag">异常状态设计</span>
+      <span class="tag">Accessibility</span>
     </div>
   </div>
 
   <section class="section">
     <div class="section-h">背景</div>
     <p class="summary reveal">这个项目源于我在 DI Works 的真实展会场景观察。原始概念由两个部分组成：YouFeed 负责前台反馈采集，让参观者通过二维码或 NFC 进入与具体展品绑定的移动页面；InsightGPT 负责后台转写、分析与整理，把零散语音反馈转化为结构化洞察。</p>
-    <p class="summary reveal d1">我作为实习生聚焦于 YouFeed 的前台移动体验。目标不是做一个更完整的表单，而是把它设计成真正适合展会环境的触点：用户停留时间短、注意力稀缺、上下文强依赖，但仍能快速表达对眼前展品的即时感受。</p>
+    <p class="summary reveal d1">我作为实习生负责 YouFeed 前台移动体验的设计与实现。目标不是做一个更完整的表单，而是把它设计成真正适合展会环境的触点：用户停留时间短、注意力稀缺、上下文强依赖，但仍能快速表达对眼前展品的即时感受。</p>
 
   </section>
 
@@ -508,30 +510,73 @@
   </section>
 
   <section class="section">
+    <div class="section-h">交互状态设计</div>
+    <p class="summary reveal">展会环境的特殊性在于：用户设备、网络环境、麦克风权限状态都不可预测。Happy path 以外的状态如果没有设计，轻则体验断裂，重则整条反馈链路失效。这部分记录了在设计过程中识别并处理的关键异常与边缘状态。</p>
+
+    <div class="card-grid reveal d1">
+      <div class="text-card">
+        <h3>麦克风权限拒绝</h3>
+        <p>公共展台场景下，用户设备的权限状态不可预知。权限被拒绝时，界面会切换为文字输入模式，并给出引导说明，而不是停在一个无响应的录音界面。</p>
+      </div>
+      <div class="text-card">
+        <h3>网络中断与提交失败</h3>
+        <p>展会现场 Wi-Fi 不稳定是常态。提交环节引入了 loading 状态、失败提示与重试入口，确保用户知道反馈是否真的发出去了，而不是在不知情的情况下丢失。</p>
+      </div>
+      <div class="text-card">
+        <h3>转录内容可编辑</h3>
+        <p>展位背景噪音较高，自动转写存在出错概率。用户在确认页可以直接编辑转录文本，修改后会有"已编辑"标记随反馈一并提交，保证内容准确性。</p>
+      </div>
+      <div class="text-card">
+        <h3>录音超时与静默检测</h3>
+        <p>录音设置 30 秒上限，接近结束时有视觉警示；若检测到静默（无有效音频输入），会提示用户重新录制或切换文字输入，避免提交空白内容。</p>
+      </div>
+    </div>
+
+    <div class="flow reveal d2" style="margin-top:20px;">
+      <p style="font-size:13px; color:var(--fg-muted); margin-bottom:14px; letter-spacing:0.02em;">主流程与降级路径</p>
+      <div class="flow-grid">
+        <div class="flow-item">首屏<br>语音入口</div>
+        <div class="arrow">&gt;</div>
+        <div class="flow-item">录音中<br>30s 上限</div>
+        <div class="arrow">&gt;</div>
+        <div class="flow-item">转录预览<br>可编辑</div>
+      </div>
+      <div style="height:10px;"></div>
+      <div class="flow-grid">
+        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">权限拒绝<br>↓ 降级文字</div>
+        <div class="arrow">&gt;</div>
+        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">静默检测<br>↓ 重录提示</div>
+        <div class="arrow">&gt;</div>
+        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">提交失败<br>↓ 重试入口</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="section-h">界面设计</div>
-    <p class="summary reveal">最终界面围绕“准备说、正在说、已捕捉、已提交”几个关键状态组织，而不是堆叠功能。这样可以把注意力集中在用户真正需要的动作上，让页面在几秒内完成理解、反馈和闭环。</p>
+    <p class="summary reveal">最终界面围绕“准备说、正在说、已捕捉、已提交”以及各类异常状态组织，而不是堆叠功能。每一屏只解决一件事，让用户在几秒内完成理解、反馈和闭环。</p>
     <div class="gallery reveal d1">
       <div class="img-frame">
         <div class="img-placeholder tall">Recording Screen 位置<br>建议放录音状态页，作为整组界面的核心视觉</div>
         <img class="img-ui img-ui-main" src="assets/youfeed/ui-1.png" alt="Recording Screen">
-        <div class="img-note">录音页是整套体验最关键的瞬间。</div>
+        <div class="img-note">录音页是整套体验最关键的瞬间。暗色主题在视觉上强化“正在捕捉”的感知，30 秒进度环与波形同时呈现录音状态。</div>
       </div>
       <div class="grid-two">
         <div class="img-frame">
           <div class="img-placeholder medium">Prompt Screen 位置</div>
           <img class="img-ui img-ui-prompt" src="assets/youfeed/ui-2.png" alt="Prompt Screen">
-          <div class="img-note">通过上下文标题与主按钮，让用户在几秒内理解“我正在反馈什么”。</div>
+          <div class="img-note">通过产品名称与问题提示，让用户在几秒内理解“我正在反馈什么”。麦克风权限拒绝时，此屏会切换为降级状态，自动突出文字输入入口。</div>
         </div>
         <div class="img-frame">
           <div class="img-placeholder medium">Captured Screen 位置</div>  
           <img class="img-ui img-ui-captured" src="assets/youfeed/ui-3.png" alt="Captured Screen">
-          <div class="img-note">加入轻量转写预览，帮助用户建立“系统已经听懂我”的信任感。</div>
+          <div class="img-note">转录预览帮助用户建立“系统已经听懂我”的信任感，同时提供内联编辑入口，允许在提交前修正转写错误。</div>
         </div>
       </div>
       <div class="img-frame">
         <div class="img-placeholder tall">Success Screen 位置</div> 
         <img class="img-ui img-ui-success" src="assets/youfeed/ui-4.png" alt="Success Screen">
-        <div class="img-note">成功页只做收口，不继续堆叠信息，避免提交后还需要额外判断下一步。</div>
+        <div class="img-note">成功页只做收口，不继续堆叠信息。提交过程中有 loading 状态与失败重试路径，成功页是确认反馈真实送达后才出现的终态。</div>
       </div>
     </div>
   </section>
@@ -539,9 +584,20 @@
   <section class="section">
     <div class="section-h">结果与反思</div>
     <div class="bullets reveal">
-      <div class="bullet"><div><strong>输出的不只是一个页面，而是一条可部署的反馈链路</strong>从展品、触点到前台采集和后台洞察，这个项目更像一个系统入口，而不是孤立 UI。</div></div>
-      <div class="bullet"><div><strong>线下部署细节会直接决定数字体验成败</strong>触点形式、摆放位置、展会噪音和停留节奏，都会影响用户是否愿意真正留下反馈。</div></div>
-      <div class="bullet"><div><strong>简单界面不等于简单设计</strong>真正的难点不是功能多少，而是如何在高干扰、低停留的环境里，让表达几乎不费力地发生。</div></div>
+      <div class="bullet"><div><strong>展会环境迫使你为最坏情况设计</strong>网络不稳、噪音高、权限状态不可预测——这些在普通产品里属于边缘情况，在展会公共触点里是常态。设计必须把异常路径当作一等公民，而不是事后补丁。</div></div>
+      <div class="bullet"><div><strong>信任感比功能完整性更重要</strong>转录预览、可编辑转写、提交确认状态——这些设计的核心不是功能，而是让用户相信“系统听懂了我、反馈确实发出去了”。</div></div>
+      <div class="bullet"><div><strong>语音优先不等于只有语音</strong>公共场合的用户不一定愿意开口，麦克风权限也可能被拒绝。Voice-first 的正确理解是“优先提供语音，同时保证文字路径同等流畅”。</div></div>
+    </div>
+
+    <div class="card-grid reveal d1" style="margin-top:20px;">
+      <div class="text-card">
+        <h3>局限与后续</h3>
+        <p>静默检测目前为模拟实现，真实部署需要接入 Web Audio API 的 analyser node。各展位的产品信息与问题文案目前通过配置注入，多展会场景下需要对接 CMS 或展会管理后台。</p>
+      </div>
+      <div class="text-card">
+        <h3>未覆盖的场景</h3>
+        <p>当前设计未考虑离线缓存（反馈在网络恢复后上传）和多语言场景（非中英文展会）。这两个方向在 ISH 这类国际展会的后续迭代中值得优先评估。</p>
+      </div>
     </div>
   </section>
 
@@ -550,7 +606,7 @@
     <a class="next" href="project-uniplus.html">下一个：UniPlus</a>
   </div>
 
-  <div class="footer reveal">YouFeed / DI Works / Exhibition Feedback Touchpoint Case</div>
+  <div class="footer reveal">YouFeed / DI Works / ISH Frankfurt 2025 / Exhibition Feedback Touchpoint</div>
 </main>
 
 <script>
