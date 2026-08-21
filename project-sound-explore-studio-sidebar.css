@@ -583,3 +583,44 @@ figcaption {
   background: linear-gradient(180deg, rgba(17,17,17,0), rgba(17,17,17,.30));
   pointer-events: none;
 }
+
+/* --- Project-specific signals: lab ring, sm dial/gold, dossier marginalia (2026-08-21) --- */
+.product-title-hero { position: relative; }
+.product-title-hero h2 { position: relative; z-index: 1; }
+.caffeine-ring {
+  position: absolute; z-index: 0;
+  right: clamp(28px, 7vw, 110px); top: 50%; transform: translateY(-50%);
+  width: clamp(170px, 19vw, 250px); height: auto;
+}
+.lab-page .opening .eyebrow { margin-bottom: clamp(40px, 5vw, 60px); }
+
+.hero-media { position: relative; }
+.sm-dial {
+  position: absolute; z-index: 1;
+  top: clamp(14px, 1.6vw, 22px); right: clamp(14px, 1.6vw, 22px);
+  width: clamp(36px, 3.4vw, 46px); height: auto;
+  color: rgba(242, 242, 239, .45);
+}
+.sm-page .chapter-list a.is-active { background: #f3ead9; color: #4a3b26; }
+.sm-page .live-link:hover { border-color: #b98d5f; }
+
+.dossier-marginalia {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
+  margin-top: clamp(28px, 4vw, 56px);
+  border: 1px solid var(--line); background: var(--line);
+}
+.dossier-marginalia > div { background: var(--paper); padding: 14px 16px; }
+.dossier-marginalia dt { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.dossier-marginalia dd { margin: 6px 0 0; font-size: 15px; }
+
+.chapter-digit {
+  position: absolute; right: clamp(10px, 1.6vw, 24px); bottom: -.14em;
+  font-size: clamp(120px, 15vw, 240px); line-height: 1; font-weight: 500;
+  color: transparent; -webkit-text-stroke: 1px rgba(17, 17, 17, .13);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .caffeine-ring { width: 108px; right: 14px; top: 18px; transform: none; opacity: .55; }
+  .dossier-marginalia { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
