@@ -93,6 +93,12 @@ for (const [page, source] of documents) {
     errors.push(`${page}: no favicon link`);
   }
   const targets = [...attributeValues(source, "href"), ...attributeValues(source, "src")];
+  for (const set of attributeValues(source, "srcset")) {
+    for (const candidate of set.split(",")) {
+      const url = candidate.trim().split(/\s+/)[0];
+      if (url) targets.push(url);
+    }
+  }
   for (const rawTarget of targets) {
     if (/^(?:https?:|mailto:|tel:|data:|javascript:)/i.test(rawTarget) || rawTarget === "#") continue;
     const [pathPart, hash = ""] = rawTarget.split("#");
