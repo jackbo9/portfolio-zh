@@ -1,0 +1,33 @@
+# Phase 1 production entrypoints and shared runtime
+index.html
+index-en.html
+project-youfeed.html
+project-youfeed-en.html
+project-sound-explore-studio-sidebar.html
+project-sound-explore-studio-sidebar-en.html
+project-research-systems.html
+project-research-systems-en.html
+project-caffeine-check.html
+project-caffeine-check-en.html
+project-kiss-kitty.html
+project-tangity-tribe.html
+sound-mirror-test-protocol.html
+404.html
+home-explore-porto-index.css
+home-explore-porto-index.js
+project-sound-explore-studio-sidebar.css
+project-sound-explore-studio-sidebar.js
+robots.txt
+sitemap.xml
+.nojekyll
+favicon.png
+
+# Release verification
+scripts/check-release.mjs
+.github/workflows/static-release-check.yml
+
+# Public CVs
+output/pdf/Junyan_Lu_CV_CN.pdf
+output/pdf/Junyan_Lu_CV_EN.pdf
+output/pdf/Junyan_Lu_CV_UX_Research_CN.pdf
+output/pdf/Junyan_Lu_CV_UX_Research_EN.pdf

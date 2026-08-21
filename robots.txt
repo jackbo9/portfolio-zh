@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jackbo9.github.io/portfolio-zh/sitemap.xml

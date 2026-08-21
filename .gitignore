@@ -1,0 +1,37 @@
+.DS_Store
+.audit/
+.design/
+audit-*/
+screenshots/
+tmp/
+
+# Local review notes and superseded visual explorations
+DESIGN_REVIEW.md
+PORTFOLIO_UPGRADE_PLAN.md
+design-qa.md
+home-explore-base-*
+home-explore-curated-*
+home-explore-studio-*
+home-explore-porto-index.html
+site.js
+styles.css
+project-sound-explore-base.*
+project-sound-explore-editorial-grid.*
+assets/brand/logo-exploration/
+assets/brand/provisional/junyan-logo-provisional.png
+assets/sound-mirror/choice-desktop.png
+assets/sound-mirror/result-desktop.png
+assets/sound-mirror/result-mobile.png
+
+# Local strategy material; not part of the public portfolio
+设计中心AI系统全景-v0.2.html
+last30days-research/
+
+# PDF working output; the four public CVs are explicitly allowed
+output/*
+!output/pdf/
+output/pdf/*
+!output/pdf/Junyan_Lu_CV_CN.pdf
+!output/pdf/Junyan_Lu_CV_EN.pdf
+!output/pdf/Junyan_Lu_CV_UX_Research_CN.pdf
+!output/pdf/Junyan_Lu_CV_UX_Research_EN.pdf
