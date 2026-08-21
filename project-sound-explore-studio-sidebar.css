@@ -540,3 +540,46 @@ figcaption {
   html { scroll-behavior: auto; }
   .voice-signal i { animation: none; }
 }
+
+/* --- Dossier plates, archive stamps, voice marks (2026-08-21) --- */
+.plate { position: relative; }
+.plate > img {
+  padding: clamp(20px, 2.4vw, 34px);
+  background: #fbfbf8;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.plate::before {
+  content: attr(data-plate);
+  position: absolute; z-index: 1;
+  top: clamp(10px, 1.2vw, 16px); left: clamp(14px, 1.6vw, 22px);
+  color: var(--muted); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .1em;
+}
+.paired-hero--dossier { position: relative; }
+.paired-hero--dossier > img:first-child { filter: saturate(.6) sepia(.05) contrast(.97); }
+.paired-hero--dossier > img:last-child { filter: saturate(.55) contrast(.96); }
+
+.paired-hero--archive { position: relative; }
+.paired-hero--archive > img { aspect-ratio: 21 / 9; }
+.archive-stamp {
+  position: absolute; z-index: 2; top: 16px; right: 16px;
+  transform: rotate(-6deg);
+  padding: 5px 12px;
+  border: 1px solid var(--ink); border-radius: 4px;
+  color: var(--ink); background: rgba(242, 242, 239, .88);
+  font-size: 9px; text-transform: uppercase; letter-spacing: .14em;
+}
+
+.voice-mark { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; margin-right: 9px; }
+.voice-mark i { width: 2px; height: 4px; background: #a63a2b; }
+.voice-mark i:nth-child(2) { height: 10px; }
+.voice-mark i:nth-child(3) { height: 6px; }
+
+.youfeed-hero { position: relative; }
+.youfeed-hero::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 34%;
+  background: linear-gradient(180deg, rgba(17,17,17,0), rgba(17,17,17,.30));
+  pointer-events: none;
+}
