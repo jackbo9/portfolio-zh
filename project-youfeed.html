@@ -1,666 +1,147 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YouFeed | 案例研究 | 陆俊彦</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #f6f4f0;
-    --bg-warm: #ede9e2;
-    --fg: #18170f;
-    --fg-muted: #7a7670;
-    --fg-faint: #b8b4ac;
-    --accent: #c0392b;
-    --line: rgba(24,23,15,0.11);
-    --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    --font-serif: 'Noto Serif SC', 'STSong', serif;
-    --font-latin: 'Cormorant Garamond', serif;
-    --radius: 8px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    line-height: 1.8;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  .cursor {
-    width: 7px;
-    height: 7px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    display: none;
-  }
-  .cursor-ring {
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--fg);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 0.3;
-    transition: width 0.18s, height 0.18s, opacity 0.18s;
-    display: none;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    body { cursor: none; }
-    body a, body button, body summary { cursor: none; }
-    .cursor, .cursor-ring { display: block; }
-  }
-  .case-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .bg-word {
-    position: absolute;
-    font-family: var(--font-latin);
-    font-style: italic;
-    font-weight: 300;
-    color: var(--fg);
-    user-select: none;
-    will-change: transform;
-  }
-  .bw1 { top: 6%; right: -1%; font-size: clamp(52px, 9vw, 116px); opacity: 0.04; }
-  .bw2 { top: 44%; left: 0%; font-size: clamp(34px, 5.5vw, 82px); opacity: 0.03; }
-  .bw3 { bottom: 8%; right: 5%; font-size: clamp(28px, 4.5vw, 68px); opacity: 0.03; }
-  .wrap {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 36px 32px 96px;
-    position: relative;
-    z-index: 1;
-  }
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 52px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-  }
-  .back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--fg-muted);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .back:hover { color: var(--fg); }
-  .back::before { content: '<'; font-size: 14px; }
-  .case-num {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg-faint);
-  }
-  .case-hero { margin-bottom: 4px; }
-  .case-label {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-  .case-title {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: clamp(40px, 7vw, 86px);
-    letter-spacing: -0.03em;
-    line-height: 0.95;
-    color: var(--fg);
-  }
-  .case-sub {
-    margin-top: 16px;
-    font-family: var(--font-serif);
-    font-size: clamp(18px, 2.4vw, 26px);
-    color: var(--fg-muted);
-    max-width: 760px;
-    line-height: 1.7;
-  }
-  .meta {
-    margin-top: 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .tag {
-    border: 1px solid var(--line);
-    padding: 5px 12px;
-    font-size: 12px;
-    color: var(--fg-muted);
-    border-radius: 2px;
-    letter-spacing: 0.03em;
-  }
-  .section {
-    margin-top: 60px;
-    padding-top: 24px;
-    border-top: 1px solid var(--line);
-  }
-  .section-h {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--fg-faint);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-h::after {
-    content: '';
-    flex: 1;
-    max-width: 48px;
-    height: 1px;
-    background: var(--line);
-  }
-  .summary {
-    font-family: var(--font-serif);
-    font-size: 17px;
-    line-height: 1.9;
-    color: var(--fg);
-    max-width: 860px;
-    margin-top: 12px;
-  }
-  .summary + .summary { margin-top: 12px; }
-  .img-frame {
-    margin-top: 18px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--bg-warm);
-  }
-  .img-placeholder {
-    min-height: 280px;
-    padding: 28px;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    color: var(--fg-muted);
-    background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(237,233,226,0.92));
-    border-bottom: 1px solid var(--line);
-  }
-  .img-placeholder.tall { min-height: 420px; }
-  .img-placeholder.medium { min-height: 320px; }
-  .img-frame img {
-    display: none;
-    width: 100%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(237,233,226,0.92));
-  }
-  .img-frame.has-image img { display: block; }
-  .img-frame.has-image .img-placeholder { display: none; }
-  .img-placeholder.medium + img {
-    height: 320px;
-    object-fit: cover;
-  }
-  .img-placeholder.tall + img {
-    height: 420px;
-    object-fit: contain;
-    padding: 20px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(237,233,226,0.92));
-  }
-  .img-scene {
-    object-fit: cover;
-    object-position: 68% center;
-  }
-  .img-nfc {
-    object-fit: contain;
-    object-position: center;
-    padding: 12px;
-    background: #f3f0ea;
-  }
-  .img-ui {
-    object-fit: cover;
-    object-position: center top;
-    background: #d8d2c7;
-  }
-  .img-ui-main {
-    object-position: center 18%;
-  }
-  .img-ui-prompt,
-  .img-ui-captured,
-  .img-ui-success {
-    object-position: center 10%;
-  }
-  .img-note {
-    padding: 10px 14px;
-    font-size: 12px;
-    color: var(--fg-muted);
-    background: #f9f7f3;
-    letter-spacing: 0.02em;
-    line-height: 1.6;
-  }
-  .gallery {
-    margin-top: 18px;
-    display: grid;
-    gap: 14px;
-  }
-  .grid-two {
-    margin-top: 18px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  .card-grid {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  .text-card {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: #faf8f4;
-    padding: 18px;
-  }
-  .text-card h3 {
-    font-size: 15px;
-    letter-spacing: 0.04em;
-    margin-bottom: 8px;
-  }
-  .text-card p {
-    color: var(--fg-muted);
-    font-size: 14px;
-    line-height: 1.75;
-  }
-  .bullets {
-    margin-top: 18px;
-    display: grid;
-    gap: 12px;
-  }
-  .bullet {
-    display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 12px;
-    align-items: start;
-  }
-  .bullet::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-top: 10px;
-  }
-  .bullet strong {
-    display: block;
-    margin-bottom: 2px;
-    color: var(--fg);
-  }
-  .flow {
-    margin-top: 18px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: #faf8f4;
-    padding: 18px;
-  }
-  .flow-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    align-items: center;
-  }
-  .flow-item {
-    min-height: 74px;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: var(--bg);
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 12px;
-    font-size: 14px;
-    color: var(--fg-muted);
-  }
-  .arrow {
-    text-align: center;
-    color: var(--fg-faint);
-    font-size: 18px;
-  }
-  .case-nav {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .case-nav a {
-    text-decoration: none;
-    color: var(--fg-muted);
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .case-nav a:hover { color: var(--fg); }
-  .case-nav .next { text-align: right; }
-  .case-nav .next::after { content: ' >'; }
-  .case-nav .prev::before { content: '< '; }
-  .footer {
-    margin-top: 20px;
-    color: var(--fg-faint);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-  }
-  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .d1 { transition-delay: 0.08s; }
-  .d2 { transition-delay: 0.16s; }
-  @media (max-width: 760px) {
-    .wrap { padding: 24px 18px 72px; }
-    .case-title { font-size: clamp(36px, 10vw, 56px); }
-    .grid-two, .card-grid { grid-template-columns: 1fr; }
-    .flow-grid { grid-template-columns: 1fr; }
-    .arrow { transform: rotate(90deg); }
-    .img-placeholder.medium + img,
-    .img-placeholder.tall + img {
-      height: auto;
-      padding: 0;
-      object-fit: contain;
-    }
-    .img-ui {
-      background: transparent;
-    }
-    .img-nfc {
-      padding: 0;
-    }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="YouFeed 项目：为展会现场设计语音优先的反馈触点，并把即时表达接入可分析的后台链路。">
+  <meta name="theme-color" content="#f2f2ef">
+  <title>YouFeed — 陆俊彦作品集</title>
+  <link rel="canonical" href="https://jackbo9.github.io/portfolio-zh/project-youfeed.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://jackbo9.github.io/portfolio-zh/project-youfeed.html">
+  <link rel="alternate" hreflang="en" href="https://jackbo9.github.io/portfolio-zh/project-youfeed-en.html">
+  <link rel="alternate" hreflang="x-default" href="https://jackbo9.github.io/portfolio-zh/project-youfeed.html">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project-sound-explore-studio-sidebar.css?v=phase1-release">
 </head>
 <body>
+  <a class="skip-link" href="#project">跳到项目内容</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<div class="case-bg" aria-hidden="true">
-  <span class="bg-word bw1" data-speed="0.14">Case Study</span>
-  <span class="bg-word bw2" data-speed="0.2">Voice-first</span>
-  <span class="bg-word bw3" data-speed="0.1">Touchpoint</span>
-</div>
-
-<main class="wrap">
-  <div class="top-bar reveal">
-    <a class="back" href="index.html#work">返回首页</a>
-    <span class="case-num">案例研究 05</span>
-  </div>
-
-  <div class="case-hero">
-    <span class="case-label reveal">UX 设计 | 产品设计 | 展会触点</span>
-    <h1 class="case-title reveal">YouFeed</h1>
-    <p class="case-sub reveal">为展会场景设计一个语音优先、低摩擦的即时反馈入口，把线下触点接回可分析的数字反馈链路。</p>
-    <div class="meta reveal d1">
-      <span class="tag">实习项目</span>
-      <span class="tag">Voice-first</span>
-      <span class="tag">Context-aware</span>
-      <span class="tag">Touchpoint Design</span>
-      <span class="tag">异常状态设计</span>
-      <span class="tag">Accessibility</span>
+  <aside class="studio-index">
+    <div class="index-top">
+      <a class="all-projects" href="index.html#youfeed">← All projects</a>
+      <a class="language-switch" href="project-youfeed-en.html" lang="en" hreflang="en">EN</a>
+      <button class="index-toggle" type="button" aria-expanded="false" data-index-toggle>Project info</button>
     </div>
-  </div>
-
-  <section class="section">
-    <div class="section-h">背景</div>
-    <p class="summary reveal">这个项目源于我在 DI Works 的真实展会场景观察。原始概念由两个部分组成：YouFeed 负责前台反馈采集，让参观者通过二维码或 NFC 进入与具体展品绑定的移动页面；InsightGPT 负责后台转写、分析与整理，把零散语音反馈转化为结构化洞察。</p>
-    <p class="summary reveal d1">我作为实习生负责 YouFeed 前台移动体验的设计与实现。目标不是做一个更完整的表单，而是把它设计成真正适合展会环境的触点：用户停留时间短、注意力稀缺、上下文强依赖，但仍能快速表达对眼前展品的即时感受。</p>
-
-  </section>
-
-  <section class="section">
-    <div class="section-h">场景机会</div>
-    <p class="summary reveal">在 Giacomini 展会试点里，不同 NFC 标签被部署在不同展品或展示区域附近。用户触发后进入的页面必须立即告诉他“你正在评价什么”，同时又不能制造“我需要完成一个任务”的心理负担。</p>
-    <div class="grid-two reveal d1">
-      <div class="img-frame">
-        <div class="img-placeholder medium">展位现场图位置<br>建议放 Giacomini 展台或展品环境照片</div>
-        <img class="img-scene" src="assets/youfeed/background.png" alt="背景研究">
-        <div class="img-note">用于说明反馈不是脱离空间的线上动作，而是展会现场体验的延伸。</div>
-      </div>
-      <div class="img-frame">
-        <div class="img-placeholder medium">NFC / 二维码触点图位置<br>建议放标签、立牌或触点说明图</div>
-        <img class="img-nfc" src="assets/youfeed/nfc.jpg" alt="NFC 触点图">
-        <div class="img-note">用于展示触发方式和“tap / scan 后立即进入反馈”的心智模型。</div>
-      </div>
+    <div class="studio-mark">
+      <a href="index.html#about">JUNYAN LU</a>
+      <p>Product designer connecting<br>research, systems and running code.</p>
     </div>
-  </section>
-
-  <section class="section">
-    <div class="section-h">设计挑战</div>
-    <div class="bullets reveal">
-      <div class="bullet"><div><strong>注意力非常短</strong>展会环境流动性高，用户通常只会给界面几秒钟的理解时间。</div></div>
-      <div class="bullet"><div><strong>反馈必须与对象强绑定</strong>用户扫到哪个标签，就应该立刻知道自己在评价什么，避免进入泛化的问卷感。</div></div>
-      <div class="bullet"><div><strong>语音输入要足够轻</strong>既要鼓励自然表达，也要考虑公共场景下用户并不总愿意长时间开口。</div></div>
-      <div class="bullet"><div><strong>页面框架要可模板化</strong>不同展品内容会变化，但结构与交互逻辑必须统一、可复用、易部署。</div></div>
+    <div class="index-stack" data-index-stack>
+      <article class="project-card is-current">
+        <span>Primary case / 01</span>
+        <h1>YouFeed</h1>
+        <p>一个为展会现场设计的语音优先反馈触点，把即时表达接回可分析的数字链路。</p>
+        <dl>
+          <div><dt>Timeline</dt><dd>Feb–Jul 2025</dd></div>
+          <div><dt>Context</dt><dd>DI Works / ISH Frankfurt</dd></div>
+          <div><dt>Role</dt><dd>Frontstage mobile experience design &amp; implementation</dd></div>
+          <div><dt>Team</dt><dd>DI Works project team + client/event collaborators</dd></div>
+        </dl>
+      </article>
+      <nav class="chapter-list" aria-label="项目章节">
+        <a href="#project" data-chapter-link="project"><span>01</span>Context</a>
+        <a href="#system" data-chapter-link="system"><span>02</span>System</a>
+        <a href="#decisions" data-chapter-link="decisions"><span>03</span>Decisions</a>
+        <a href="#reflection" data-chapter-link="reflection"><span>04</span>Reflection</a>
+      </nav>
+      <a class="next-project" href="project-sound-explore-studio-sidebar.html">
+        <span>Next primary case / 02</span>
+        <strong>Sound Mirror →</strong>
+      </a>
     </div>
-    <div class="card-grid reveal d1">
-      <div class="text-card">
-        <h3>YouFeed</h3>
-        <p>前台触点层。用户通过二维码或 NFC 进入与展品绑定的上下文页面，并通过语音或文字快速留下即时反馈。</p>
-      </div>
-      <div class="text-card">
-        <h3>InsightGPT</h3>
-        <p>后台洞察层。系统对内容进行转写与分析，帮助团队从高频、碎片化反馈里提炼出可执行洞察。</p>
-      </div>
-    </div>
-  </section>
+  </aside>
 
-  <section class="section">
-    <div class="section-h">系统逻辑</div>
-    <p class="summary reveal">这个案例不是单独设计一张页面，而是把线下触点、前台交互与后台洞察链路串起来。对作品集来说，这比单纯展示界面更重要，因为它说明了这个设计的成立条件和部署方式。</p>
-    <div class="flow reveal d1">
-      <div class="flow-grid">
-        <div class="flow-item">展品 / 展示区域</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">二维码 / NFC 触点</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">YouFeed 上下文页面</div>
-      </div>
-      <div style="height:12px;"></div>
-      <div class="flow-grid">
-        <div class="flow-item">语音 / 文字反馈</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">转写与结构化处理</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">InsightGPT 洞察输出</div>
-      </div>
-    </div>
-    <div class="card-grid reveal d2">
-      <div class="text-card">
-        <h3>原则 01 | Context-specific</h3>
-        <p>每个触点对应一个明确对象，让用户几乎不需要再做解释和回忆。</p>
-      </div>
-      <div class="text-card">
-        <h3>原则 02 | Voice-first</h3>
-        <p>优先鼓励“说一句”，而不是把反馈行为变成长表单填写。</p>
-      </div>
-      <div class="text-card">
-        <h3>原则 03 | Low-friction</h3>
-        <p>不引入登录、复杂层级或多余步骤，尽可能缩短从触发到表达的路径。</p>
-      </div>
-      <div class="text-card">
-        <h3>原则 04 | Modular</h3>
-        <p>保证页面结构统一，内容可根据不同展品、区域或活动动态替换。</p>
-      </div>
-    </div>
-  </section>
+  <main class="publication" id="project">
+    <figure class="youfeed-hero">
+      <img src="assets/portfolio-optimized/youfeed-background.jpg" alt="YouFeed 所服务的展会现场与产品展示环境" width="1264" height="843" fetchpriority="high" decoding="async">
+      <div class="voice-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <figcaption><span>ISH Frankfurt / 2025</span><span>Feedback in context</span></figcaption>
+    </figure>
 
-  <section class="section">
-    <div class="section-h">交互状态设计</div>
-    <p class="summary reveal">展会环境的特殊性在于：用户设备、网络环境、麦克风权限状态都不可预测。Happy path 以外的状态如果没有设计，轻则体验断裂，重则整条反馈链路失效。这部分记录了在设计过程中识别并处理的关键异常与边缘状态。</p>
+    <section class="opening" data-chapter="project">
+      <div class="eyebrow">The context</div>
+      <h2>Feedback belongs<br>to the moment.</h2>
+      <div class="opening-copy">
+        <p>展会里的感受非常具体，也消失得很快。YouFeed 让参观者在展品旁通过二维码或 NFC 进入与对象绑定的移动页面，用一句话留下此刻的反馈。</p>
+        <p>我负责前台移动体验的设计与实现，包括触点进入、语音/文字输入、转写确认和关键异常状态。后台转写与洞察属于项目系统背景，不是我的独立交付。</p>
+      </div>
+      <dl class="fact-grid" aria-label="YouFeed 项目事实">
+        <div><dt>Constraint</dt><dd>短注意力、嘈杂环境、麦克风权限、弱网与现场客流。</dd></div>
+        <div><dt>Contribution</dt><dd>把物理触点、对象上下文和移动反馈流程连接成一条可执行路径。</dd></div>
+        <div><dt>Team outcome</dt><dd>项目部署累计获得 1,000+ 条反馈；该数字属于团队/项目结果。</dd></div>
+        <div><dt>Unknown</dt><dd>本人未拥有后台模型、洞察准确率和完整数据分析闭环。</dd></div>
+      </dl>
+    </section>
 
-    <div class="card-grid reveal d1">
-      <div class="text-card">
-        <h3>麦克风权限拒绝</h3>
-        <p>公共展台场景下，用户设备的权限状态不可预知。权限被拒绝时，界面会切换为文字输入模式，并给出引导说明，而不是停在一个无响应的录音界面。</p>
-      </div>
-      <div class="text-card">
-        <h3>网络中断与提交失败</h3>
-        <p>展会现场 Wi-Fi 不稳定是常态。提交环节引入了 loading 状态、失败提示与重试入口，确保用户知道反馈是否真的发出去了，而不是在不知情的情况下丢失。</p>
-      </div>
-      <div class="text-card">
-        <h3>转录内容可编辑</h3>
-        <p>展位背景噪音较高，自动转写存在出错概率。用户在确认页可以直接编辑转录文本，修改后会有"已编辑"标记随反馈一并提交，保证内容准确性。</p>
-      </div>
-      <div class="text-card">
-        <h3>录音超时与静默检测</h3>
-        <p>录音设置 30 秒上限，接近结束时有视觉警示；若检测到静默（无有效音频输入），会提示用户重新录制或切换文字输入，避免提交空白内容。</p>
-      </div>
-    </div>
+    <section class="context-pair" aria-label="现场与数字触点">
+      <figure>
+        <img src="assets/youfeed/nfc.jpg" alt="部署在展品附近的 YouFeed NFC 触点" width="1050" height="500" loading="lazy" decoding="async">
+        <figcaption><span>Physical trigger</span><span>NFC / QR</span></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/youfeed/ui-1.png" alt="YouFeed 与具体展品绑定的移动反馈页面" width="2400" height="1261" loading="lazy" decoding="async">
+        <figcaption><span>Digital entry</span><span>Object-bound page</span></figcaption>
+      </figure>
+    </section>
 
-    <div class="flow reveal d2" style="margin-top:20px;">
-      <p style="font-size:13px; color:var(--fg-muted); margin-bottom:14px; letter-spacing:0.02em;">主流程与降级路径</p>
-      <div class="flow-grid">
-        <div class="flow-item">首屏<br>语音入口</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">录音中<br>30s 上限</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item">转录预览<br>可编辑</div>
+    <section class="mechanism" id="system" data-chapter="system">
+      <div class="eyebrow">The system</div>
+      <div class="mechanism-grid">
+        <h2>一个轻触点，<br>一条完整反馈链。</h2>
+        <p>YouFeed 是前台表达层；InsightGPT 是后台整理层。触点必须先保留“我在评价什么”的现场上下文，之后的转写与分析才不会把反馈变成脱离对象的文字碎片。</p>
       </div>
-      <div style="height:10px;"></div>
-      <div class="flow-grid">
-        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">权限拒绝<br>↓ 降级文字</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">静默检测<br>↓ 重录提示</div>
-        <div class="arrow">&gt;</div>
-        <div class="flow-item" style="border-style:dashed; color:var(--fg-faint); font-size:13px;">提交失败<br>↓ 重试入口</div>
+      <div class="model-row">
+        <article><span>Trigger</span><strong>Product-bound entry</strong><p>每个二维码或 NFC 对应一个明确展品与问题。</p></article>
+        <article><span>Capture</span><strong>Voice + text fallback</strong><p>优先自然表达，同时让不方便开口的人继续完成反馈。</p></article>
+        <article><span>Insight</span><strong>Transcribe and structure</strong><p>后台整理高频、碎片化内容，保留对象和来源。</p></article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="section-h">界面设计</div>
-    <p class="summary reveal">最终界面围绕“准备说、正在说、已捕捉、已提交”以及各类异常状态组织，而不是堆叠功能。每一屏只解决一件事，让用户在几秒内完成理解、反馈和闭环。</p>
-    <div class="gallery reveal d1">
-      <div class="img-frame">
-        <div class="img-placeholder tall">Recording Screen 位置<br>建议放录音状态页，作为整组界面的核心视觉</div>
-        <img class="img-ui img-ui-main" src="assets/youfeed/ui-1.png" alt="Recording Screen">
-        <div class="img-note">录音页是整套体验最关键的瞬间。暗色主题在视觉上强化“正在捕捉”的感知，30 秒进度环与波形同时呈现录音状态。</div>
+    <section class="youfeed-sequence" aria-label="YouFeed 四个关键界面状态">
+      <figure><img src="assets/youfeed/ui-1.png" alt="YouFeed 展品上下文页面" width="2400" height="1261" loading="lazy" decoding="async"><figcaption><span>01</span><span>Identify the object</span></figcaption></figure>
+      <figure><img src="assets/youfeed/ui-2.png" alt="YouFeed 语音反馈提示页面" width="2376" height="1264" loading="lazy" decoding="async"><figcaption><span>02</span><span>Invite one thought</span></figcaption></figure>
+      <figure><img src="assets/youfeed/ui-3.png" alt="YouFeed 转写确认与编辑页面" width="2429" height="1270" loading="lazy" decoding="async"><figcaption><span>03</span><span>Review the transcript</span></figcaption></figure>
+      <figure><img src="assets/youfeed/ui-4.png" alt="YouFeed 反馈成功页面" width="2432" height="1263" loading="lazy" decoding="async"><figcaption><span>04</span><span>Confirm delivery</span></figcaption></figure>
+    </section>
+
+    <section class="decisions" id="decisions" data-chapter="decisions">
+      <div class="eyebrow">Three decisions</div>
+      <article><span>01</span><h3>Context before capture</h3><p>先明确正在评价的展品和问题，再邀请表达；用户不需要重新解释现场，后台也能保留反馈的对象。</p></article>
+      <article><span>02</span><h3>Voice-first, never voice-only</h3><p>语音减少输入摩擦，但公共场合、权限拒绝和背景噪音都很常见。文字输入不是次要功能，而是同等完整的备用路径。</p></article>
+      <article><span>03</span><h3>Trust through visible states</h3><p>转写可检查、错误可修改、提交有明确结果；设计重点不是让流程显得聪明，而是让用户知道系统听懂了、反馈也真的送达了。</p></article>
+    </section>
+
+    <section class="evidence-chain" aria-labelledby="youfeed-evidence-title">
+      <header>
+        <h2 id="youfeed-evidence-title">一条可追溯的<br>证据到变化链。</h2>
+        <p>这里区分现场约束、设计判断、界面变化和目前可公开的结果，不把项目整体指标等同于个人贡献。</p>
+      </header>
+      <div class="evidence-chain__steps">
+        <article><span>01 / Evidence</span><strong>反馈必须留在对象旁</strong><p>离开展品后，参观者很难准确恢复自己在评价什么；现场表达的价值来自对象与时刻。</p></article>
+        <article><span>02 / Decision</span><strong>先绑定对象，再邀请输入</strong><p>二维码/NFC 直接进入对应展品页面，而不是从通用表单里重新选择对象。</p></article>
+        <article><span>03 / Change</span><strong>加入双路径与确认状态</strong><p>语音作为低摩擦入口，文字承接不便开口、权限拒绝和噪音；转写在提交前可检查和修正。</p></article>
+        <article><span>04 / Evidence boundary</span><strong>1,000+ 是项目结果</strong><p>真实部署证明触点能够产生规模化输入；它不证明由我独立完成后台分析，也不等同于可用性提升幅度。</p></article>
       </div>
-      <div class="grid-two">
-        <div class="img-frame">
-          <div class="img-placeholder medium">Prompt Screen 位置</div>
-          <img class="img-ui img-ui-prompt" src="assets/youfeed/ui-2.png" alt="Prompt Screen">
-          <div class="img-note">通过产品名称与问题提示，让用户在几秒内理解“我正在反馈什么”。麦克风权限拒绝时，此屏会切换为降级状态，自动突出文字输入入口。</div>
-        </div>
-        <div class="img-frame">
-          <div class="img-placeholder medium">Captured Screen 位置</div>  
-          <img class="img-ui img-ui-captured" src="assets/youfeed/ui-3.png" alt="Captured Screen">
-          <div class="img-note">转录预览帮助用户建立“系统已经听懂我”的信任感，同时提供内联编辑入口，允许在提交前修正转写错误。</div>
-        </div>
+    </section>
+
+    <section class="reflection" id="reflection" data-chapter="reflection">
+      <div class="eyebrow">Reflection</div>
+      <h2>At an exhibition,<br>edge cases are the context.</h2>
+      <div class="reflection-columns">
+        <div><span>What the project demonstrates</span><p>我把一个移动界面放回完整服务链中思考：物理触点如何带入上下文、前台如何降低表达门槛，以及权限、噪音和弱网如何改变体验。</p></div>
+        <div><span>What remains unknown</span><p>语音与文字的实际选择率、转写修正成功率、后台洞察准确度和 1,000+ 反馈如何改变后续版本，当前都缺少可公开的归因证据。</p></div>
       </div>
-      <div class="img-frame">
-        <div class="img-placeholder tall">Success Screen 位置</div> 
-        <img class="img-ui img-ui-success" src="assets/youfeed/ui-4.png" alt="Success Screen">
-        <div class="img-note">成功页只做收口，不继续堆叠信息。提交过程中有 loading 状态与失败重试路径，成功页是确认反馈真实送达后才出现的终态。</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="section-h">结果与反思</div>
-    <div class="bullets reveal">
-      <div class="bullet"><div><strong>展会环境迫使你为最坏情况设计</strong>网络不稳、噪音高、权限状态不可预测——这些在普通产品里属于边缘情况，在展会公共触点里是常态。设计必须把异常路径当作一等公民，而不是事后补丁。</div></div>
-      <div class="bullet"><div><strong>信任感比功能完整性更重要</strong>转录预览、可编辑转写、提交确认状态——这些设计的核心不是功能，而是让用户相信“系统听懂了我、反馈确实发出去了”。</div></div>
-      <div class="bullet"><div><strong>语音优先不等于只有语音</strong>公共场合的用户不一定愿意开口，麦克风权限也可能被拒绝。Voice-first 的正确理解是“优先提供语音，同时保证文字路径同等流畅”。</div></div>
-    </div>
-
-    <div class="card-grid reveal d1" style="margin-top:20px;">
-      <div class="text-card">
-        <h3>局限与后续</h3>
-        <p>静默检测目前为模拟实现，真实部署需要接入 Web Audio API 的 analyser node。各展位的产品信息与问题文案目前通过配置注入，多展会场景下需要对接 CMS 或展会管理后台。</p>
-      </div>
-      <div class="text-card">
-        <h3>未覆盖的场景</h3>
-        <p>当前设计未考虑离线缓存（反馈在网络恢复后上传）和多语言场景（非中英文展会）。这两个方向在 ISH 这类国际展会的后续迭代中值得优先评估。</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="case-nav reveal">
-    <a class="prev" href="index.html#work">所有作品</a>
-    <a class="next" href="project-uniplus.html">下一个：UniPlus</a>
-  </div>
-
-  <div class="footer reveal">YouFeed / DI Works / ISH Frankfurt 2025 / Exhibition Feedback Touchpoint</div>
-</main>
-
-<script>
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-const hasFine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-let mx = 0, my = 0, rx = 0, ry = 0;
-if (hasFine && cursor && ring) {
-  document.addEventListener('mousemove', (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    cursor.style.transform = `translate(calc(${mx}px - 50%),calc(${my}px - 50%))`;
-  });
-  (function anim() {
-    rx += (mx - rx) * 0.1;
-    ry += (my - ry) * 0.1;
-    ring.style.transform = `translate(calc(${rx}px - 50%),calc(${ry}px - 50%))`;
-    requestAnimationFrame(anim);
-  })();
-  document.querySelectorAll('a,button,summary').forEach((el) => {
-    el.addEventListener('mouseenter', () => {
-      ring.style.width = '44px';
-      ring.style.height = '44px';
-      ring.style.opacity = '0.18';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width = '28px';
-      ring.style.height = '28px';
-      ring.style.opacity = '0.3';
-    });
-  });
-}
-const bgWords = document.querySelectorAll('.bg-word');
-window.addEventListener('scroll', () => {
-  const sy = window.scrollY;
-  bgWords.forEach((el) => {
-    el.style.transform = `translateY(${sy * parseFloat(el.dataset.speed || '0.14')}px)`;
-  });
-}, { passive: true });
-const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-  if (e.isIntersecting) e.target.classList.add('visible');
-}), { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
-document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-
-document.querySelectorAll('.img-frame img').forEach((img) => {
-  const syncFrame = () => {
-    if (img.naturalWidth > 0) img.parentElement.classList.add('has-image');
-  };
-  if (img.complete) syncFrame();
-  img.addEventListener('load', syncFrame);
-});
-</script>
+    <footer class="publication-end">
+      <span>DI Works / ISH Frankfurt / 2025</span>
+      <a href="index.html#youfeed">Back to all projects ↑</a>
+    </footer>
+  </main>
+  <script src="project-sound-explore-studio-sidebar.js?v=phase1"></script>
 </body>
 </html>
-
-
-

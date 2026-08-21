@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sound Mirror 项目：用八次具体音乐选择生成一张可解释、可保存的音乐人格画像。">
+  <meta name="theme-color" content="#f2f2ef">
+  <title>Sound Mirror — 陆俊彦作品集</title>
+  <link rel="canonical" href="https://jackbo9.github.io/portfolio-zh/project-sound-explore-studio-sidebar.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://jackbo9.github.io/portfolio-zh/project-sound-explore-studio-sidebar.html">
+  <link rel="alternate" hreflang="en" href="https://jackbo9.github.io/portfolio-zh/project-sound-explore-studio-sidebar-en.html">
+  <link rel="alternate" hreflang="x-default" href="https://jackbo9.github.io/portfolio-zh/project-sound-explore-studio-sidebar.html">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project-sound-explore-studio-sidebar.css?v=phase1-release">
+</head>
+<body>
+  <a class="skip-link" href="#project">跳到项目内容</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+
+  <aside class="studio-index">
+    <div class="index-top">
+      <a class="all-projects" href="index.html#sound">← All projects</a>
+      <a class="language-switch" href="project-sound-explore-studio-sidebar-en.html" lang="en" hreflang="en">EN</a>
+      <button class="index-toggle" type="button" aria-expanded="false" data-index-toggle>Project info</button>
+    </div>
+
+    <div class="studio-mark">
+      <a href="index.html#about">JUNYAN LU</a>
+      <p>Product designer building<br>tools, systems and experiments.</p>
+    </div>
+
+    <div class="index-stack" data-index-stack>
+      <article class="project-card is-current">
+        <span>Primary case / 02</span>
+        <h1>Sound Mirror</h1>
+        <p>用八次具体的音乐选择，生成一张可解释的审美人格画像。</p>
+        <dl>
+          <div><dt>Year</dt><dd>2026</dd></div>
+          <div><dt>Type</dt><dd>Independent live product</dd></div>
+          <div><dt>Role</dt><dd>Concept, design &amp; build</dd></div>
+          <div><dt>Status</dt><dd>Live v1.0</dd></div>
+        </dl>
+        <a class="live-link" href="https://sound-mirror-app.vercel.app/" target="_blank" rel="noopener noreferrer">Open live project ↗</a>
+      </article>
+
+      <nav class="chapter-list" aria-label="项目章节">
+        <a href="#project" data-chapter-link="project"><span>01</span>Experience</a>
+        <a href="#mechanism" data-chapter-link="mechanism"><span>02</span>Mechanism</a>
+        <a href="#decisions" data-chapter-link="decisions"><span>03</span>Decisions</a>
+        <a href="#validation" data-chapter-link="validation"><span>04</span>Validation</a>
+      </nav>
+
+      <a class="next-project" href="project-research-systems.html">
+        <span>Supporting cases / 03–04</span>
+        <strong>Promap + UniPlus →</strong>
+      </a>
+    </div>
+  </aside>
+
+  <main class="publication" id="project">
+    <figure class="hero-media">
+      <img src="assets/sound-mirror/latest-welcome-desktop.png" alt="Sound Mirror 最新欢迎页：Find Your Sound 与 Listening Ritual" width="1280" height="800" fetchpriority="high" decoding="async">
+      <figcaption><span>Welcome / 01</span><span>Real product interface</span></figcaption>
+    </figure>
+
+    <section class="opening" data-chapter="project">
+      <div class="eyebrow">The experience</div>
+      <h2>Music taste as a decision,<br>not a questionnaire.</h2>
+      <div class="opening-copy">
+        <p>Sound Mirror 不让用户评价抽象的“自己”，而是让判断发生在此刻：戴上耳机，在八组具体声音之间凭直觉选择。</p>
+        <p>三分钟后，选择被转成 Energy、Mood 与 Structure 三条坐标，再组合成人格、原因与推荐音乐。结果既能被带走，也能被追问。</p>
+      </div>
+      <dl class="fact-grid" aria-label="Sound Mirror 项目事实">
+        <div><dt>Role</dt><dd>独立完成概念、交互、视觉与前端构建。</dd></div>
+        <div><dt>Constraint</dt><dd>生成式表达不能改变确定性评分，也不能成为体验完成的依赖。</dd></div>
+        <div><dt>Current evidence</dt><dd>Live v1.0；穷举检查 256 种 A/B 组合的规则输出。</dd></div>
+        <div><dt>Unknown</dt><dd>坐标可理解性、结果匹配感、解释信任和曲目文化覆盖。</dd></div>
+      </dl>
+    </section>
+
+    <section class="experience-module" aria-label="Sound Mirror 三个产品状态">
+      <div class="stage-tabs" role="tablist" aria-label="产品体验状态">
+        <button class="is-active" id="stage-tab-welcome" type="button" role="tab" aria-selected="true" aria-controls="stage-panel-welcome" tabindex="0" data-stage-target="welcome"><span>01</span>Welcome</button>
+        <button id="stage-tab-choice" type="button" role="tab" aria-selected="false" aria-controls="stage-panel-choice" tabindex="-1" data-stage-target="choice"><span>02</span>Choose</button>
+        <button id="stage-tab-portrait" type="button" role="tab" aria-selected="false" aria-controls="stage-panel-portrait" tabindex="-1" data-stage-target="portrait"><span>03</span>Portrait</button>
+      </div>
+      <div class="stage-frame">
+        <figure id="stage-panel-welcome" role="tabpanel" aria-labelledby="stage-tab-welcome" tabindex="0" data-stage-panel="welcome"><img src="assets/sound-mirror/latest-welcome-desktop.png" alt="Sound Mirror 最新欢迎页" width="1280" height="800" loading="lazy" decoding="async"></figure>
+        <figure id="stage-panel-choice" role="tabpanel" aria-labelledby="stage-tab-choice" tabindex="0" data-stage-panel="choice" hidden><img src="assets/sound-mirror/latest-choice-desktop.png" alt="Sound Mirror 最新音乐二选一界面" width="1280" height="800" loading="lazy" decoding="async"></figure>
+        <figure id="stage-panel-portrait" role="tabpanel" aria-labelledby="stage-tab-portrait" tabindex="0" data-stage-panel="portrait" hidden><img src="assets/sound-mirror/latest-result-desktop.png" alt="Sound Mirror 最新人格结果页" width="1280" height="800" loading="lazy" decoding="async"></figure>
+      </div>
+      <div class="stage-note">
+        <p data-stage-copy="welcome"><strong>Enter a listening state.</strong> 戴上耳机，先建立一段短暂的 listening ritual。</p>
+        <p data-stage-copy="choice" hidden><strong>Eight concrete decisions.</strong> 问题谈感受，选项给出具体声音；试听与选择可以独立完成。</p>
+        <p data-stage-copy="portrait" hidden><strong>A portrait with receipts.</strong> 人格、坐标、关键选择与推荐共同构成可保存的结果。</p>
+      </div>
+    </section>
+
+    <section class="mechanism" id="mechanism" data-chapter="mechanism">
+      <div class="eyebrow">The mechanism</div>
+      <div class="mechanism-grid">
+        <h2>AI 负责表达，<br>不能篡改判断。</h2>
+        <p>核心评分始终是确定性的。AI 只负责改写人格名称与结果文案；没有 API 或模型异常时，本地模型仍然完成整个体验。</p>
+      </div>
+      <div class="model-row">
+        <article><span>Input / 08</span><strong>A / B choices</strong><p>每个选项携带三维分值。</p></article>
+        <article><span>Model / 03</span><strong>Energy · Mood · Structure</strong><p>八题求均值，得到 0—100 坐标。</p></article>
+        <article><span>Portrait / 08</span><strong>Persona + reasons</strong><p>坐标定人格，显著选择解释原因。</p></article>
+      </div>
+    </section>
+
+    <figure class="full-media">
+      <img src="assets/sound-mirror/latest-choice-desktop.png" alt="Sound Mirror 最新音乐二选一界面" width="1280" height="800" loading="lazy" decoding="async">
+      <figcaption><span>Choice / 02</span><span>Eight rounds · A / B</span></figcaption>
+    </figure>
+
+    <section class="decisions" id="decisions" data-chapter="decisions">
+      <div class="eyebrow">Three decisions</div>
+      <article><span>01</span><h3>Concrete over abstract</h3><p>用具体歌曲代替“你是否喜欢高能量音乐”，让判断发生在声音，而不是自我想象中。</p></article>
+      <article><span>02</span><h3>Explain before impress</h3><p>结果不只给标签，还把影响最大的选择还给用户，说明 Why this portrait。</p></article>
+      <article><span>03</span><h3>Graceful without AI</h3><p>生成式表达是增强层，不是完成体验的门票；失败时仍然能生成完整画像。</p></article>
+    </section>
+
+    <section class="version-comparison" aria-labelledby="sound-versions-title">
+      <header>
+        <h2 id="sound-versions-title">两个版本，<br>两种证据强度。</h2>
+        <p>当前变化来自构建中的可用性检查与系统约束，不冒充真实用户研究结论。测试完成后，第二轮变化才会与观察证据建立因果关系。</p>
+      </header>
+      <div class="version-comparison__grid">
+        <figure><img src="assets/sound-mirror/welcome-desktop.png" alt="Sound Mirror 早期欢迎页" width="1280" height="800" loading="lazy" decoding="async"><figcaption><span>Earlier build</span><span>Entry before listening ritual</span></figcaption></figure>
+        <figure><img src="assets/sound-mirror/latest-welcome-desktop.png" alt="Sound Mirror 当前欢迎页" width="1280" height="800" loading="lazy" decoding="async"><figcaption><span>Live v1.0</span><span>Listening ritual and clearer entry</span></figcaption></figure>
+      </div>
+      <div class="version-comparison__notes">
+        <article><span>Build-driven change</span><strong>从直接开始到先建立聆听状态</strong><p>新版明确耳机、时长和选择方式，减少用户在第一题才理解规则的风险。这是设计推断，仍需测试验证。</p></article>
+        <article><span>Next evidence-driven change</span><strong>等待主持式测试后锁定</strong><p>只有完成 5–8 位真实参与者测试，才能把坐标解释、结果匹配感或放弃点与下一版设计变化连接起来。</p></article>
+      </div>
+    </section>
+
+    <figure class="result-media">
+      <img src="assets/sound-mirror/latest-result-desktop.png" alt="Sound Mirror 最新完整桌面结果页" width="1280" height="800" loading="lazy" decoding="async">
+      <img class="mobile-result" src="assets/sound-mirror/latest-result-mobile.png" alt="Sound Mirror 最新手机结果页" width="375" height="812" loading="lazy" decoding="async">
+      <figcaption><span>Portrait / 03</span><span>Desktop + mobile</span></figcaption>
+    </figure>
+
+    <section class="validation-plan" id="validation" data-chapter="validation">
+      <div class="eyebrow">Moderated test / Phase 1 gate</div>
+      <h2>测试协议已准备，<br>结果尚未发生。</h2>
+      <p class="validation-plan__status"><i aria-hidden="true"></i> Pending real participants · target 5–8 sessions</p>
+      <div class="validation-metrics">
+        <article><span>Metric 01</span><strong>任务完成率</strong></article>
+        <article><span>Metric 02</span><strong>放弃点与恢复路径</strong></article>
+        <article><span>Metric 03</span><strong>三条坐标理解</strong></article>
+        <article><span>Metric 04</span><strong>结果匹配感</strong></article>
+        <article><span>Metric 05</span><strong>解释信任</strong></article>
+      </div>
+      <a href="sound-mirror-test-protocol.html">查看公开测试协议 →</a>
+    </section>
+
+    <section class="reflection" id="reflection">
+      <div class="eyebrow">Current reflection</div>
+      <h2>It is a working product.<br>It is not yet a research finding.</h2>
+      <div class="reflection-columns">
+        <div><span>What the build proves</span><p>体验闭环、确定性评分、失败降级与分享卡导出已经成立；规则层已穷举检查 256 种选择组合。</p></div>
+        <div><span>What remains unknown</span><p>曲目样本的文化公平性、三条坐标的覆盖度，以及“像自己”的感受仍需要真实用户验证。</p></div>
+      </div>
+    </section>
+
+    <footer class="publication-end">
+      <span>Independent product experiment / 2026</span>
+      <a href="index.html#sound">Back to all projects ↑</a>
+    </footer>
+  </main>
+
+  <script src="project-sound-explore-studio-sidebar.js?v=phase1"></script>
+</body>
+</html>
