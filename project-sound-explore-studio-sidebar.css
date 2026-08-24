@@ -637,4 +637,7 @@ figcaption {
 
 /* Dense-media stacked variant (Slice 1: Promap readability) */
 .chapter-media-grid--stacked { grid-template-columns: 1fr; }
-.chapter-media-grid--stacked .plate > img { height: auto; min-height: 0; }
+.chapter-media-grid--stacked .plate > img,
+.full-media.plate > img { height: auto; min-height: 0; padding: 0; background: none; border: 0; border-radius: 0; }
+.chapter-media-grid--stacked .plate::before,
+.full-media.plate::before { content: none; }
