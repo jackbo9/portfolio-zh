@@ -289,6 +289,16 @@ figcaption {
 .stage-tabs button span { color: var(--muted); font-size: 9px; }
 .stage-tabs button.is-active { background: var(--ink); color: #fff; }
 .stage-tabs button.is-active span { color: #aaa; }
+.stage-tabs button { transition: background-color .15s ease, color .15s ease; }
+
+@keyframes panel-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+[data-stage-panel]:not([hidden]) { animation: panel-enter .24s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  [data-stage-panel]:not([hidden]) { animation: none; }
+}
 .stage-frame figure { margin: 0; }
 .stage-frame img { height: auto; min-height: 0; object-fit: contain; }
 .stage-note { min-height: 84px; padding: 16px; }

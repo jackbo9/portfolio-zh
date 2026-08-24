@@ -78,6 +78,7 @@ img { display: block; width: 100%; }
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
+  transition: background-color .15s ease;
 }
 .index-card__summary { display: grid; gap: 3px; padding: 14px 16px; }
 .index-card__summary > span,
@@ -90,7 +91,18 @@ img { display: block; width: 100%; }
 .detail-meta { display: grid; grid-template-columns: 65px 1fr; gap: 3px 8px; margin-top: 20px; }
 .detail-meta i { color: var(--muted); font-size: 9px; font-style: normal; text-transform: uppercase; }
 .detail-meta b { font-size: 10px; font-weight: 400; }
-.detail-link { display: block; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 10px; text-decoration: none; }
+.detail-link { display: block; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 10px; text-decoration: none; transition: transform .15s ease; }
+.index-card:hover .detail-link { transform: translateX(3px); }
+
+/* View switch transition (quiet by default, disabled for reduced motion) */
+@keyframes panel-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.view[data-view-panel]:not([hidden]) { animation: panel-enter .24s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .view[data-view-panel]:not([hidden]) { animation: none; }
+}
 .index-card.is-active .index-card__summary { display: none; }
 .index-card.is-active .index-card__details { display: block; }
 .index-card:hover,

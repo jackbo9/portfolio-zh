@@ -177,6 +177,7 @@ function showView(target, updateHash = true) {
     panel.classList.toggle("is-active", panel.dataset.viewPanel === target);
     if (panel.dataset.viewPanel === target) panel.scrollTop = 0;
   });
+  if (window.innerWidth < 821) window.scrollTo(0, 0);
 
   if (updateHash) {
     const nextHash = target === "about" ? "#about" : `#${target}`;
