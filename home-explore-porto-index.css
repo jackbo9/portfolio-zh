@@ -24,6 +24,7 @@ body.intro-lock { overflow: hidden; }
   transition: opacity .5s ease, visibility .5s ease;
 }
 .intro-veil.is-leaving { opacity: 0; visibility: hidden; }
+.intro-veil__logo { width: 64px; height: auto; margin: 0 auto 22px; object-fit: contain; mix-blend-mode: multiply; }
 .intro-veil__mark { margin: 0; font-size: clamp(46px, 11vw, 150px); font-weight: 500; letter-spacing: -.06em; line-height: .95; }
 .intro-veil__line { margin: 0; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .18em; }
 .intro-veil__hint { position: absolute; bottom: 30px; left: 0; right: 0; margin: 0; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .14em; }
