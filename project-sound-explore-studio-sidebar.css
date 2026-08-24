@@ -634,3 +634,7 @@ figcaption {
   .caffeine-ring { width: 108px; right: 14px; top: 18px; transform: none; opacity: .55; }
   .dossier-marginalia { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Dense-media stacked variant (Slice 1: Promap readability) */
+.chapter-media-grid--stacked { grid-template-columns: 1fr; }
+.chapter-media-grid--stacked .plate > img { height: auto; min-height: 0; }
