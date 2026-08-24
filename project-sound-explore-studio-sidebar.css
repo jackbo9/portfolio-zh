@@ -4,7 +4,7 @@
   --ink: #111;
   --muted: #62625c;
   --line: #c9c9c2;
-  --sidebar: clamp(320px, 31vw, 430px);
+  --sidebar: clamp(288px, 27vw, 384px);
   --font: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
 }
 

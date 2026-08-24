@@ -1,3 +1,24 @@
+const introVeil = document.querySelector("[data-intro-veil]");
+if (introVeil && (sessionStorage.getItem("introSeen") || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+  introVeil.remove();
+} else if (introVeil) {
+  document.body.classList.add("intro-lock");
+  const leaveIntro = () => {
+    introVeil.classList.add("is-leaving");
+    document.body.classList.remove("intro-lock");
+    sessionStorage.setItem("introSeen", "1");
+    window.removeEventListener("pointerdown", leaveIntro);
+    window.removeEventListener("keydown", leaveIntro);
+    window.removeEventListener("wheel", leaveIntro);
+    window.removeEventListener("touchstart", leaveIntro);
+    setTimeout(() => introVeil.remove(), 550);
+  };
+  window.addEventListener("pointerdown", leaveIntro);
+  window.addEventListener("keydown", leaveIntro);
+  window.addEventListener("wheel", leaveIntro, { passive: true });
+  window.addEventListener("touchstart", leaveIntro, { passive: true });
+}
+
 const viewButtons = [...document.querySelectorAll("[data-view-target]")];
 const viewPanels = [...document.querySelectorAll("[data-view-panel]")];
 const viewer = document.querySelector(".viewer");
