@@ -48,17 +48,26 @@ chapterLinks.forEach((link) => {
   });
 });
 
-const chapterObserver = new IntersectionObserver((entries) => {
-  const current = entries
-    .filter((entry) => entry.isIntersecting)
-    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-  if (!current) return;
+const syncChapterHighlight = () => {
+  const band = window.innerHeight * 0.35;
+  const current = chapters
+    .filter((chapter) => chapter.getBoundingClientRect().top <= band)
+    .pop();
+  if (!current) {
+    chapterLinks.forEach((link) => link.classList.toggle("is-active", link === chapterLinks[0]));
+    return;
+  }
   chapterLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.dataset.chapterLink === current.target.dataset.chapter);
+    link.classList.toggle("is-active", link.dataset.chapterLink === current.dataset.chapter);
   });
-}, { rootMargin: "-18% 0px -65% 0px", threshold: [0, .15, .4] });
+};
 
+const chapterObserver = new IntersectionObserver(syncChapterHighlight, {
+  rootMargin: "-18% 0px -65% 0px",
+});
 chapters.forEach((chapter) => chapterObserver.observe(chapter));
+window.addEventListener("resize", syncChapterHighlight, { passive: true });
+syncChapterHighlight();
 
 function updateProgress() {
   if (!progress) return;
