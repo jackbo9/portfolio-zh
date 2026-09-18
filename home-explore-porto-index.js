@@ -36,6 +36,7 @@ function syncViewSemantics() {
 }
 
 const isEnglish = document.documentElement.lang === "en";
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const practiceStates = isEnglish ? [
   {
     id: "research",
@@ -68,7 +69,7 @@ const practiceStates = isEnglish ? [
     copy: "我先去看真实的人怎样绕路、犹豫和自我解释。",
     note: "研究不是前置流程，而是找到值得被设计的问题。",
     href: "project-youfeed.html",
-    link: "See this thinking in YouFeed →",
+    link: "在 YouFeed 里看这条思路 →",
   },
   {
     id: "between",
@@ -76,7 +77,7 @@ const practiceStates = isEnglish ? [
     copy: "研究告诉我什么值得做，原型告诉我漏掉了什么。",
     note: "我在两边往返，直到一个抽象判断变成可感知的体验。",
     href: "project-ai-zhihui.html",
-    link: "See this thinking in AI Zhihui →",
+    link: "在 AI智绘 里看这条思路 →",
   },
   {
     id: "making",
@@ -84,7 +85,7 @@ const practiceStates = isEnglish ? [
     copy: "我会尽快把想法做成一个能被触碰、误用和质疑的东西。",
     note: "原型不是结论，它是让下一轮判断更诚实的提问方式。",
     href: "project-ai-zhihui.html",
-    link: "Open AI Zhihui →",
+    link: "打开 AI智绘案例 →",
   },
 ];
 
@@ -168,7 +169,9 @@ function showView(target, updateHash = true) {
     languageSwitch.href = `${languageUrl.pathname.split("/").pop()}${languageUrl.hash}`;
   }
 
-  if (window.innerWidth < 821 && updateHash) viewer?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (window.innerWidth < 821 && updateHash) {
+    viewer?.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+  }
 }
 
 viewButtons.forEach((button) => {

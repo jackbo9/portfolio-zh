@@ -540,3 +540,17 @@ figcaption {
   html { scroll-behavior: auto; }
   .voice-signal i { animation: none; }
 }
+
+@media (max-width: 560px) {
+  /* Reader-facing copy on phones: role, status and evidence lines stay legible without enlarging decorative labels. */
+  .validation-plan__status,
+  .project-card dd,
+  .chapter-list a,
+  .next-project strong,
+  .validation-plan > a,
+  .validation-metrics strong { font-size: 14px; line-height: 1.6; }
+  .publication-end,
+  .fact-grid dt,
+  .validation-metrics span,
+  .version-comparison__notes span { font-size: 11px; }
+}

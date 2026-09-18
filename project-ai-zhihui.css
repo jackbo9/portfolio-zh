@@ -120,3 +120,47 @@
  .zh-ba figcaption { max-width: 330px; }
 }
 @media(min-width:900px){ .zh-shift { grid-template-columns: repeat(4,minmax(0,1fr)); } }
+
+/* Service flow: which actor owns which step. Stacked on small screens. */
+.zh-serviceflow { margin: 28px 0; }
+.zh-serviceflow figcaption { margin-bottom: 14px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.zh-serviceflow ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.zh-serviceflow li { display: grid; gap: 6px; align-content: start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.zh-serviceflow li:last-child { border-bottom: 0; }
+.zh-serviceflow li > span { color: var(--muted); font-size: 12px; }
+.zh-serviceflow li > strong { font-size: 17px; font-weight: 500; }
+.zh-section .zh-serviceflow li > p { margin: 0 0 4px; font-size: 14px; line-height: 1.6; }
+.zh-serviceflow i { display: inline-block; margin: 3px 4px 0 0; padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; background: #f0f1ea; font-size: 11px; font-style: normal; line-height: 1.5; }
+.zh-serviceflow i.is-human { border-color: var(--ink); background: var(--ink); color: #fff; }
+.zh-serviceflow i.is-model { border-color: #c3d02f; background: var(--accent); }
+.zh-serviceflow i.is-brand { border-color: #e0cba2; background: #f3e8d0; }
+
+/* Exception table: card rows on small screens, four columns from 640px. */
+.zh-exceptions { margin: 16px 0 6px; }
+.zh-exceptions table { width: 100%; border-collapse: collapse; }
+.zh-exceptions caption { margin-bottom: 14px; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: left; }
+.zh-exceptions thead { display: none; }
+.zh-exceptions tbody tr { display: block; padding: 18px 0; border-top: 1px solid var(--line); }
+.zh-exceptions tbody tr:last-child { border-bottom: 1px solid var(--line); }
+.zh-exceptions th, .zh-exceptions td { display: block; padding: 0; border: 0; text-align: left; vertical-align: top; }
+.zh-exceptions tbody th { margin-bottom: 10px; font-size: 17px; font-weight: 500; }
+.zh-exceptions td { margin-bottom: 10px; font-size: 14px; line-height: 1.7; }
+.zh-exceptions td:last-child { margin-bottom: 0; }
+.zh-exceptions td::before { content: attr(data-label); display: block; margin-bottom: 3px; color: var(--muted); font-size: 11px; letter-spacing: .04em; }
+
+@media(min-width:640px){
+ .zh-exceptions thead { display: table-header-group; }
+ .zh-exceptions tbody tr { display: table-row; padding: 0; }
+ .zh-exceptions thead th { padding: 10px 18px 10px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: .04em; }
+ .zh-exceptions tbody th,
+ .zh-exceptions tbody td { display: table-cell; padding: 16px 18px 16px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.7; }
+ .zh-exceptions tbody th { margin-bottom: 0; white-space: nowrap; }
+ .zh-exceptions tbody td { margin-bottom: 0; }
+ .zh-exceptions td::before { content: none; }
+}
+@media(min-width:900px){
+ .zh-serviceflow ol { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); }
+ .zh-serviceflow li { padding: 18px 16px 18px 0; border-bottom: 0; }
+ .zh-serviceflow li + li { padding-left: 16px; border-left: 1px solid var(--line); }
+ .zh-serviceflow li:last-child { padding-right: 0; }
+}
