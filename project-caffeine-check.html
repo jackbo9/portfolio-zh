@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Caffeine Check 项目：把个人资料、当天摄入和时间状态组织成可以行动的咖啡因参考。">
+  <meta name="theme-color" content="#f2f2ef">
+  <title>Caffeine Check — 陆俊彦作品集</title>
+  <link rel="canonical" href="https://jackbo9.github.io/portfolio-zh/project-caffeine-check.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://jackbo9.github.io/portfolio-zh/project-caffeine-check.html">
+  <link rel="alternate" hreflang="en" href="https://jackbo9.github.io/portfolio-zh/project-caffeine-check-en.html">
+  <link rel="alternate" hreflang="x-default" href="https://jackbo9.github.io/portfolio-zh/project-caffeine-check.html">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project-sound-explore-studio-sidebar.css?v=phase1-release">
+</head>
+<body>
+  <a class="skip-link" href="#project">跳到项目内容</a>
+  <div class="progress" aria-hidden="true"><i data-progress></i></div>
+
+  <aside class="studio-index">
+    <div class="index-top">
+      <a class="all-projects" href="index.html#caffeine">← All projects</a>
+      <a class="language-switch" href="project-caffeine-check-en.html" lang="en" hreflang="en">EN</a>
+      <button class="index-toggle" type="button" aria-expanded="false" data-index-toggle>Project info</button>
+    </div>
+
+    <div class="studio-mark">
+      <a href="index.html#about">JUNYAN LU</a>
+      <p>Product designer connecting<br>research, systems and running code.</p>
+    </div>
+
+    <div class="index-stack" data-index-stack>
+      <article class="project-card is-current">
+        <span>Lab / live utility</span>
+        <h1>Caffeine Check</h1>
+        <p>把“今天还能喝多少”从泛化建议变成与个人资料和当天记录有关的即时判断。</p>
+        <dl>
+          <div><dt>Year</dt><dd>2026</dd></div>
+          <div><dt>Type</dt><dd>Independent live lab</dd></div>
+          <div><dt>Role</dt><dd>Product design &amp; build</dd></div>
+          <div><dt>Status</dt><dd>Longitudinal validation pending</dd></div>
+        </dl>
+        <a class="live-link" href="https://jackbo9.github.io/caffeine-check/" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+      </article>
+
+      <nav class="chapter-list" aria-label="项目章节">
+        <a href="#project" data-chapter-link="project"><span>01</span>Overview</a>
+        <a href="#mechanism" data-chapter-link="mechanism"><span>02</span>Logic</a>
+        <a href="#decisions" data-chapter-link="decisions"><span>03</span>Decisions</a>
+        <a href="#reflection" data-chapter-link="reflection"><span>04</span>Reflection</a>
+      </nav>
+
+      <a class="next-project" href="index.html#about">
+        <span>Complete the loop</span>
+        <strong>About →</strong>
+      </a>
+    </div>
+  </aside>
+
+  <main class="publication" id="project">
+    <header class="product-title-hero">
+        <span>Live Lab / Browser-based / 2026</span>
+      <h2>Caffeine<br>Check</h2>
+      <div>
+        <p>One daily question,<br>made specific to today.</p>
+        <a href="https://jackbo9.github.io/caffeine-check/" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+      </div>
+    </header>
+
+    <section class="opening" data-chapter="project">
+      <div class="eyebrow">30-second overview</div>
+      <h2>A useful answer depends<br>on what happened today.</h2>
+      <div class="opening-copy">
+        <p>咖啡因建议经常停留在统一上限，但用户真正面对的是一个更具体的问题：以我的情况、现在的时间和今天已经喝过的东西，我还适合再喝一杯吗？</p>
+        <p>Caffeine Check 把个人资料、当日记录与饮品估算放在同一条判断链里。它不替用户做医疗决定，而是把分散信息整理成一条可理解、可继续修正的参考。</p>
+      </div>
+    </section>
+
+    <section class="mechanism" id="mechanism" data-chapter="mechanism">
+      <div class="eyebrow">Product logic</div>
+      <div class="mechanism-grid">
+        <h2>先保证核心判断稳定，<br>再让输入变得自然。</h2>
+        <p>产品逻辑与表达层被刻意分开：个人基线、当天累计与状态反馈由明确规则负责；自然语言只帮助用户更快地记下一杯饮品，不应该让核心计算依赖模型是否可用。</p>
+      </div>
+      <div class="model-row">
+        <article><span>Profile</span><strong>Personal baseline</strong><p>用必要信息建立个人参考，而不是默认所有人相同。</p></article>
+        <article><span>Today</span><strong>Running intake log</strong><p>每次记录都会改变当天余量和后续判断。</p></article>
+        <article><span>Now</span><strong>Actionable state</strong><p>用可读状态解释数字，而不是只显示一个总量。</p></article>
+      </div>
+    </section>
+
+    <section class="decisions" id="decisions" data-chapter="decisions">
+      <div class="eyebrow">Three decisions</div>
+      <article><span>01</span><h3>One decision, not a dashboard</h3><p>首页先回答“还能不能喝”，再提供记录与细节，避免把日常工具做成需要学习的数据面板。</p></article>
+      <article><span>02</span><h3>Natural input, visible interpretation</h3><p>自然语言降低记录成本，但系统必须把识别到的饮品和估算量明确还给用户，允许发现并修正误差。</p></article>
+      <article><span>03</span><h3>Reference, not false precision</h3><p>结果使用区间、状态和解释建立信任，不把饮品估算包装成医学级精确结论。</p></article>
+    </section>
+
+    <section class="reflection" id="reflection" data-chapter="reflection">
+      <div class="eyebrow">Reflection</div>
+      <h2>It works as a daily utility.<br>Its confidence still has boundaries.</h2>
+      <div class="reflection-columns">
+        <div><span>What the build proves</span><p>核心路径已经可以运行：建立个人资料、记录当天摄入、查看累计状态，并在浏览器中保留连续使用所需的数据。</p></div>
+        <div><span>What needs another iteration</span><p>饮品数据库覆盖、不同杯型的估算误差、提示语气与长期使用习惯仍需要更多真实使用反馈；下一轮应优先验证这些边界，而不是增加更多功能。</p></div>
+      </div>
+    </section>
+
+    <footer class="publication-end">
+      <span>Independent live lab / 2026</span>
+      <a href="index.html#caffeine">Back to all projects ↑</a>
+    </footer>
+  </main>
+
+  <script src="project-sound-explore-studio-sidebar.js?v=phase1"></script>
+</body>
+</html>
