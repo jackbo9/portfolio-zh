@@ -48,9 +48,9 @@
 
       <nav class="chapter-list" aria-label="项目章节">
         <a href="#project" data-chapter-link="project"><span>01</span>Overview</a>
-        <a href="#mechanism" data-chapter-link="mechanism"><span>02</span>Logic</a>
-        <a href="#decisions" data-chapter-link="decisions"><span>03</span>Decisions</a>
-        <a href="#reflection" data-chapter-link="reflection"><span>04</span>Reflection</a>
+        <a href="#flow" data-chapter-link="flow"><span>02</span>Flow</a><a href="#mechanism" data-chapter-link="mechanism"><span>03</span>Logic</a>
+        <a href="#decisions" data-chapter-link="decisions"><span>04</span>Decisions</a>
+        <a href="#reflection" data-chapter-link="reflection"><span>05</span>Reflection</a>
       </nav>
 
       <a class="next-project" href="index.html#about">
@@ -66,7 +66,7 @@
       <h2>Caffeine<br>Check</h2>
       <div>
         <p>One daily question,<br>made specific to today.</p>
-        <a href="https://jackbo9.github.io/caffeine-check/" target="_blank" rel="noopener noreferrer">Open live product ↗</a>
+        <a href="https://jackbo9.github.io/caffeine-check/" target="_blank" rel="noopener noreferrer">Open live product ↗</a><img class="caffeine-hero-shot" src="assets/caffeine-check/step-3-day.png" alt="Caffeine Check 实际运行画面：当天曲线与睡前仍可能活跃的量" width="780" height="1120" loading="eager" decoding="async">
       </div>
     </header>
 
@@ -78,6 +78,8 @@
         <p>Caffeine Check 把个人资料、当日记录与饮品估算放在同一条判断链里。它不替用户做医疗决定，而是把分散信息整理成一条可理解、可继续修正的参考。</p>
       </div>
     </section>
+
+    <section class="mechanism" id="flow" data-chapter="flow"><div class="eyebrow">What the product actually does</div><div class="mechanism-grid"><h2>输入一杯，确认识别，<br>再看它怎样改变今晚。</h2><p>三步都在同一页完成：写下或选择一杯饮品、核对系统识别到的名称与估算区间、再把它加进当天曲线。识别错了可以改；已记进当天的饮品也可以移除。核心计算不依赖模型是否可用。</p></div><div class="caffeine-flow"><figure><img src="assets/caffeine-check/step-1-entry.png" alt="Caffeine Check 的输入步骤：描述一杯饮品并可选择参考" width="780" height="940" loading="lazy" decoding="async"><figcaption><b>01 / 输入一杯</b>描述或选择一杯饮品。</figcaption></figure><figure><img src="assets/caffeine-check/step-2-interpret.png" alt="Caffeine Check 返回识别到的饮品与估算区间，确认后才生效" width="780" height="940" loading="lazy" decoding="async"><figcaption><b>02 / 确认识别</b>系统给出识别到的饮品与估算区间，确认后才进入曲线。</figcaption></figure><figure><img src="assets/caffeine-check/step-3-day.png" alt="Caffeine Check 当天状态：当前活跃量、当天累计与睡前预测" width="780" height="1120" loading="lazy" decoding="async"><figcaption><b>03 / 当天状态</b>加入后看到当前活跃量与睡前仍可能活跃的量。</figcaption></figure></div></section>
 
     <section class="mechanism" id="mechanism" data-chapter="mechanism">
       <div class="eyebrow">Product logic</div>

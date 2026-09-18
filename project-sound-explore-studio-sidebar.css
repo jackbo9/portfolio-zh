@@ -177,6 +177,19 @@ figcaption,
 .product-title-hero p { margin: 0; color: #b8b8b1; font-size: 16px; line-height: 1.55; }
 .product-title-hero a { display: inline-flex; min-height: 44px; align-items: center; border-bottom: 1px solid #777; font-size: 12px; text-decoration: none; }
 
+/* Caffeine Check: the cover carries a real product screen instead of only a title. */
+.caffeine-hero-shot { width: min(168px, 34vw); height: auto; flex: none; align-self: end; border-radius: 10px; box-shadow: 0 12px 30px #00000055; }
+
+/* Three real product states: log a cup, review the match, then today's curve. */
+.caffeine-flow { display: grid; gap: 20px; margin-top: 32px; }
+.caffeine-flow figure { margin: 0; display: grid; gap: 10px; align-content: start; }
+.caffeine-flow img { display: block; width: 100%; max-width: 280px; height: auto; border: 1px solid var(--line); border-radius: 10px; }
+.caffeine-flow figcaption { max-width: 32ch; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.caffeine-flow figcaption b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 500; }
+
+@media (min-width: 760px) { .caffeine-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } }
+@media (max-width: 759px) { .caffeine-hero-shot { margin-top: 20px; width: min(210px, 56vw); align-self: start; } }
+
 figcaption {
   display: flex;
   justify-content: space-between;
