@@ -45,7 +45,9 @@
 .zh-build .zh-crop-study figcaption { color: #20271f; }
 
 /* Before/after: raw model output against the template-composed result, same task. */
-.zh-ba { display: grid; gap: 20px; margin: 26px 0 18px; }
+/* A Before/After pair reads as a comparison, so it stays side by side on phones
+   too - stacking it cost roughly 700px of scrolling for no extra clarity. */
+.zh-ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 26px 0 18px; }
 .zh-ba figure { margin: 0; display: grid; gap: 10px; align-content: start; justify-items: start; }
 .zh-ba img { display: block; width: 100%; max-width: 280px; height: auto; border-radius: 5px; }
 .zh-ba figcaption { display: block; width: 100%; max-width: 300px; }
@@ -164,3 +166,15 @@
  .zh-serviceflow li + li { padding-left: 16px; border-left: 1px solid var(--line); }
  .zh-serviceflow li:last-child { padding-right: 0; }
 }
+
+/* Appendix blocks: the default reading line keeps the conclusion and the
+   evidence that matters, while the full detail stays one tap away for
+   interviews. Collapsed content must never hold a caveat about a number. */
+.zh-appendix { margin: 20px 0 0; border-top: 1px solid var(--line); }
+.zh-appendix > summary { display: flex; min-height: 44px; align-items: center; cursor: pointer; font-size: 13px; line-height: 1.5; }
+.zh-appendix > summary::marker { color: var(--muted); }
+.zh-appendix > summary:hover { color: #2727f2; }
+.zh-appendix[open] > summary { margin-bottom: 12px; }
+.zh-appendix[open] { padding-bottom: 4px; }
+.zh-build .zh-appendix { border-color: #65705d; }
+.zh-build .zh-appendix > summary:hover { color: var(--accent); }
