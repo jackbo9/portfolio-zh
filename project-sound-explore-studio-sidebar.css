@@ -453,8 +453,19 @@ figcaption {
   }
   .studio-mark { display: none; }
   .index-toggle { display: block; cursor: pointer; }
-  .index-stack { display: none; margin-top: 8px; }
-  .index-stack.is-open { display: grid; }
+  /* Sticky chapter bar. The toggle doubles as the "project · chapter" readout so
+     readers mid-scroll get a directory in one tap without leaving the page. */
+  .index-top { position: fixed; top: 0; right: 0; left: 0; z-index: 30; min-height: 60px; align-items: center; gap: 8px; padding: 8px 12px; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .studio-index { padding-top: 68px; }
+  .index-toggle { flex: 1; min-width: 0; padding: 0 10px; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+  /* The project card carries the only h1 and the role summary, so it stays visible
+     by default; only the chapter list and the next-case exit collapse. */
+  .index-stack { display: grid; margin-top: 8px; }
+  .index-stack .chapter-list,
+  .index-stack .next-project { display: none; }
+  .index-stack.is-open .chapter-list { display: grid; }
+  .index-stack.is-open .next-project { display: flex; }
+  .publication [id] { scroll-margin-top: 72px; }
   .publication { margin-left: 0; }
   .hero-media img { min-height: 0; }
   .opening-copy,

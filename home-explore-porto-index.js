@@ -142,8 +142,35 @@ function updatePractice(rawValue, shouldSnap = false) {
   });
 }
 
-function showView(target, updateHash = true) {
+const scrollMemory = new Map();
+const hashForTarget = (target) => (target === "about" ? "#about" : `#${target}`);
+
+function viewButtonFor(target) {
+  return viewButtons.find((button) => button.dataset.viewTarget === target);
+}
+
+function panelFor(target) {
+  return viewPanels.find((panel) => panel.dataset.viewPanel === target);
+}
+
+function activeTarget() {
+  return viewPanels.find((panel) => !panel.hidden)?.dataset.viewPanel || "about";
+}
+
+/**
+ * mode:
+ *   "push"    - a deliberate project switch, so Back/Forward moves between projects
+ *   "replace" - initial load and hash normalisation
+ *   "silent"  - history already moved (popstate / hashchange); do not write it again
+ */
+function showView(target, mode = "push") {
   if (!viewPanels.some((panel) => panel.dataset.viewPanel === target)) return;
+
+  const previous = activeTarget();
+  if (previous !== target && window.innerWidth >= 821) {
+    const previousPanel = panelFor(previous);
+    if (previousPanel) scrollMemory.set(previous, previousPanel.scrollTop);
+  }
 
   viewButtons.forEach((button) => {
     const active = button.dataset.viewTarget === target;
@@ -155,12 +182,20 @@ function showView(target, updateHash = true) {
   viewPanels.forEach((panel) => {
     panel.hidden = panel.dataset.viewPanel !== target;
     panel.classList.toggle("is-active", panel.dataset.viewPanel === target);
-    if (panel.dataset.viewPanel === target) panel.scrollTop = 0;
   });
 
-  if (updateHash) {
-    const nextHash = target === "about" ? "#about" : `#${target}`;
-    if (window.location.hash !== nextHash) history.replaceState(null, "", nextHash);
+  const targetPanel = panelFor(target);
+  if (targetPanel) targetPanel.scrollTop = scrollMemory.get(target) ?? 0;
+
+  if (mode !== "silent") {
+    const nextHash = hashForTarget(target);
+    if (window.location.hash !== nextHash) {
+      const url = `${window.location.pathname}${window.location.search}${nextHash}`;
+      if (mode === "replace") history.replaceState({ target }, "", url);
+      else history.pushState({ target }, "", url);
+    } else {
+      history.replaceState({ target }, "", window.location.href);
+    }
   }
 
   if (languageSwitch) {
@@ -169,7 +204,7 @@ function showView(target, updateHash = true) {
     languageSwitch.href = `${languageUrl.pathname.split("/").pop()}${languageUrl.hash}`;
   }
 
-  if (window.innerWidth < 821 && updateHash) {
+  if (window.innerWidth < 821 && mode === "push") {
     viewer?.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
   }
 }
@@ -190,9 +225,17 @@ viewButtons.forEach((button) => {
         : event.key === nextKey
           ? (currentIndex + 1) % viewButtons.length
           : (currentIndex - 1 + viewButtons.length) % viewButtons.length;
-    const nextButton = viewButtons[nextIndex];
-    nextButton.focus();
-    showView(nextButton.dataset.viewTarget);
+    // Arrow keys only move focus; Enter/Space commits, so keyboard traversal
+    // does not flood the history stack with a project per keypress.
+    viewButtons[nextIndex].focus();
+  });
+});
+
+viewButtons.forEach((button) => {
+  button.addEventListener("keydown", (event) => {
+    if (!["Enter", " "].includes(event.key)) return;
+    event.preventDefault();
+    showView(button.dataset.viewTarget, "push");
   });
 });
 
@@ -202,11 +245,28 @@ const initialTarget = {
   "#contact": "about",
 }[window.location.hash] || window.location.hash.slice(1);
 
-if (initialTarget) showView(initialTarget, false);
+const resolvedInitial = viewPanels.some((panel) => panel.dataset.viewPanel === initialTarget)
+  ? initialTarget
+  : activeTarget();
+
+showView(resolvedInitial, "replace");
 
 window.addEventListener("hashchange", () => {
-  const target = window.location.hash === "#work" ? "zhihui" : window.location.hash.slice(1);
-  if (target) showView(target, false);
+  const target = window.location.hash === "#work"
+    ? "zhihui"
+    : (window.location.hash.slice(1) || activeTarget());
+  showView(target, "silent");
+});
+
+window.addEventListener("popstate", (event) => {
+  const fromState = event.state && event.state.target;
+  const fromHash = window.location.hash === "#work"
+    ? "zhihui"
+    : window.location.hash.slice(1);
+  const target = viewPanels.some((panel) => panel.dataset.viewPanel === fromState)
+    ? fromState
+    : fromHash;
+  if (viewPanels.some((panel) => panel.dataset.viewPanel === target)) showView(target, "silent");
 });
 
 practiceBalance?.addEventListener("input", () => {
@@ -225,5 +285,4 @@ syncViewSemantics();
 window.addEventListener("resize", syncViewSemantics);
 updatePractice(practiceBalance?.value ?? 1, true);
 
-const activeView = viewPanels.find((panel) => !panel.hidden)?.dataset.viewPanel || "about";
-showView(activeView, false);
+showView(activeTarget(), "replace");

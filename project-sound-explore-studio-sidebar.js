@@ -2,7 +2,10 @@ const stageButtons = [...document.querySelectorAll("[data-stage-target]")];
 const stagePanels = [...document.querySelectorAll("[data-stage-panel]")];
 const stageCopies = [...document.querySelectorAll("[data-stage-copy]")];
 const chapterLinks = [...document.querySelectorAll("[data-chapter-link]")];
-const chapters = [...document.querySelectorAll("[data-chapter]")];
+// The AI Zhihui pages mark their sections with data-zh-chapter while the other
+// cases use data-chapter; accept both so the directory tracks them all.
+const chapters = [...document.querySelectorAll("[data-chapter], [data-zh-chapter]")];
+const chapterKey = (element) => element.dataset.chapter || element.dataset.zhChapter;
 const progress = document.querySelector("[data-progress]");
 const indexToggle = document.querySelector("[data-index-toggle]");
 const indexStack = document.querySelector("[data-index-stack]");
@@ -41,6 +44,44 @@ indexToggle?.addEventListener("click", () => {
   indexStack?.classList.toggle("is-open", open);
 });
 
+// The sticky bar shows "project · current chapter" so readers mid-scroll know
+// where they are and can open the directory in one tap.
+const projectName = document.querySelector(".project-card h1")?.textContent.replace(/\s+/g, " ").trim() || "";
+
+function chapterLabel(id) {
+  const link = chapterLinks.find((candidate) => candidate.dataset.chapterLink === id);
+  if (!link) return "";
+  const clone = link.cloneNode(true);
+  clone.querySelector("span")?.remove();
+  return clone.textContent.replace(/\s+/g, " ").trim();
+}
+
+function refreshIndexLabel() {
+  if (!indexToggle) return;
+  const current = chapterLinks.find((link) => link.classList.contains("is-active"))?.dataset.chapterLink
+    || chapterLinks[0]?.dataset.chapterLink;
+  const label = chapterLabel(current);
+  const text = [projectName, label].filter(Boolean).join(" \u00b7 ");
+  if (text) indexToggle.textContent = `${text} \u25be`;
+}
+
+if (indexToggle && indexStack) {
+  if (!indexStack.id) indexStack.id = "case-index-stack";
+  indexToggle.setAttribute("aria-controls", indexStack.id);
+}
+
+function closeIndex() {
+  if (indexToggle?.getAttribute("aria-expanded") !== "true") return false;
+  indexToggle.setAttribute("aria-expanded", "false");
+  indexStack?.classList.remove("is-open");
+  indexToggle.focus();
+  return true;
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeIndex();
+});
+
 chapterLinks.forEach((link) => {
   link.addEventListener("click", () => {
     indexToggle?.setAttribute("aria-expanded", "false");
@@ -54,11 +95,13 @@ const chapterObserver = new IntersectionObserver((entries) => {
     .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
   if (!current) return;
   chapterLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.dataset.chapterLink === current.target.dataset.chapter);
+    link.classList.toggle("is-active", link.dataset.chapterLink === chapterKey(current.target));
   });
+  refreshIndexLabel();
 }, { rootMargin: "-18% 0px -65% 0px", threshold: [0, .15, .4] });
 
 chapters.forEach((chapter) => chapterObserver.observe(chapter));
+refreshIndexLabel();
 
 function updateProgress() {
   if (!progress) return;
