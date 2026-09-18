@@ -2,10 +2,15 @@
 /**
  * Builds output/pdf/Junyan_Lu_CV_CN.pdf from scripts/cv/cv-cn.html.
  *
- * The Chinese CV is rendered from HTML rather than exported from Figma because
- * Figma's PDF export writes per-glyph positioning for mixed CJK/Latin runs,
- * which makes the text layer unusable for ATS parsing. Chromium's print path
- * keeps real text, real hyperlinks and a much smaller file.
+ * The Chinese CV is built from HTML rather than exported from Figma so the
+ * source lives in the repo, the PDF stays small (~0.85 MB against ~3 MB) and
+ * the links stay clickable.
+ *
+ * Correcting an earlier claim: this file used to say Figma's PDF text layer was
+ * unusable for ATS parsing. That came from a single extractor (pypdf), which
+ * inserts spaces between full-width CJK glyphs. pdfminer-based extraction reads
+ * both the Figma export and this one cleanly, so the ATS claim was wrong and
+ * must not be repeated as fact.
  *
  * Usage: node scripts/cv/build-cv-cn.mjs
  * Playwright is resolved from PLAYWRIGHT_PATH, then a few known locations.
