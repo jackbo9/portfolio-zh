@@ -123,7 +123,7 @@ img { display: block; width: 100%; }
   --making-share: 45%;
   display: grid;
   min-height: 100%;
-  grid-template-rows: auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto auto;
   gap: 0;
   padding: clamp(28px, 3vw, 48px);
   border-radius: 12px;
@@ -142,16 +142,23 @@ img { display: block; width: 100%; }
 .practice-intro h1 { max-width: 100%; margin: 16px 0 0; font-size: clamp(28px, 3vw, 44px); font-weight: 400; letter-spacing: -.05em; line-height: 1.12; text-wrap: balance; }
 .practice-intro > p { margin: 0; color: var(--muted); font-size: 14px; }
 
-/* Direct case entries: first screen should not require switching the preview first. */
-.case-entry { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: clamp(26px, 4vh, 40px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.case-entry__item { display: grid; gap: 6px; align-content: start; min-height: 44px; padding: 18px 20px 20px 0; text-decoration: none; }
+/* Evidence entries: a real image, the design question, and the author's part.
+   They sit above the practice slider so project evidence owns the first screen. */
+.case-entry { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.case-entry__item { display: grid; gap: 12px; align-content: start; min-height: 44px; padding: 18px 20px 20px 0; text-decoration: none; }
 .case-entry__item + .case-entry__item { padding-left: 20px; border-left: 1px solid var(--line); }
-.case-entry__item > span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+.case-entry__thumb { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 4px; background: var(--card); }
+.case-entry__body { display: grid; gap: 4px; align-content: start; }
+.case-entry__label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
 .case-entry__item strong { font-size: 16px; font-weight: 500; letter-spacing: -.02em; }
-.case-entry__item p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.case-entry__q { font-size: 13px; line-height: 1.5; }
+.case-entry__role { color: var(--muted); font-size: 12px; line-height: 1.5; }
 .case-entry__item--quiet strong { font-weight: 400; }
 .case-entry__item:hover,
 .case-entry__item:focus-visible { background: #ededea; }
+
+.case-hint { margin: 0 0 clamp(24px, 3.6vh, 36px); color: var(--muted); font-size: 14px; }
+.practice-block__title { margin: 0 0 12px; color: var(--muted); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
 
 .practice-axis { min-height: clamp(410px, 52vh, 560px); padding-top: 18px; border-top: 1px solid var(--line); }
 .practice-axis__head { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; }
@@ -376,6 +383,12 @@ img { display: block; width: 100%; }
 @media (max-width: 820px) {
   :root { --index: 100%; }
   .long-index { position: relative; width: 100%; height: auto; grid-template-rows: auto 80px auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  /* Compress the phone header into three tight rows so project evidence reaches
+     the first screen: identity + language, then role, then availability. */
+  .index-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 10px 12px 12px; }
+  .index-header > div { grid-column: 1 / -1; margin-top: 0; }
+  .index-header > p { grid-column: 1 / 2; margin: 0; }
+  .index-header > .language-switch { grid-row: 1 / 2; grid-column: 2 / 3; margin-top: 0; }
   /* Phones hide the sidebar footer, so Email + CV ride in a sticky bar that stays
      reachable from every panel instead of only at the top of About. */
   .index-utility { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 2px 8px; background: var(--paper); border-bottom: 1px solid var(--line); }
@@ -418,11 +431,14 @@ img { display: block; width: 100%; }
   .practice-intro h1 { font-size: 31px; }
   .practice-intro > p { margin-top: 8px; font-size: 16px; line-height: 1.6; }
   .case-entry { grid-template-columns: 1fr; }
-  .case-entry__item { padding: 16px 0 18px; }
+  .case-entry__item { grid-template-columns: 84px minmax(0, 1fr); align-items: start; gap: 12px; padding: 14px 0 16px; }
   .case-entry__item + .case-entry__item { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
-  .case-entry__item strong { font-size: 18px; }
-  .case-entry__item p { font-size: 15px; }
-  .case-entry__item > span { font-size: 11px; }
+  .case-entry__thumb { height: 84px; aspect-ratio: 1; }
+  .case-entry__item strong { font-size: 17px; }
+  .case-entry__q { font-size: 14px; }
+  .case-entry__role { font-size: 12.5px; }
+  .case-entry__label { font-size: 10px; }
+  .case-hint { font-size: 14px; }
   .practice-axis { padding-top: 14px; }
   .practice-pole strong { font-size: 28px; }
   .practice-pole span { font-size: 11px; }
