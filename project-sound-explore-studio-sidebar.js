@@ -82,6 +82,14 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeIndex();
 });
 
+// The directory is a fixed panel over the page, so tapping outside it should
+// dismiss it rather than leave the reader stuck behind it.
+document.addEventListener("click", (event) => {
+  if (indexToggle?.getAttribute("aria-expanded") !== "true") return;
+  if (indexStack?.contains(event.target) || indexToggle.contains(event.target)) return;
+  closeIndex();
+});
+
 chapterLinks.forEach((link) => {
   link.addEventListener("click", () => {
     indexToggle?.setAttribute("aria-expanded", "false");
@@ -89,19 +97,37 @@ chapterLinks.forEach((link) => {
   });
 });
 
-const chapterObserver = new IntersectionObserver((entries) => {
-  const current = entries
-    .filter((entry) => entry.isIntersecting)
-    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-  if (!current) return;
+// One owner for "which chapter am I in": it drives the highlight, aria-current
+// and the sticky bar label together. A position read cannot miss the way an
+// intersection band can, and a second updater elsewhere would fight this one.
+let chapterFrame = 0;
+
+function updateCurrentChapter() {
+  chapterFrame = 0;
+  if (!chapters.length) return;
+  const readingLine = window.innerHeight * 0.3;
+  let current = chapters[0];
+  for (const section of chapters) {
+    if (section.getBoundingClientRect().top <= readingLine) current = section;
+  }
+  const key = chapterKey(current);
   chapterLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.dataset.chapterLink === chapterKey(current.target));
+    const active = link.dataset.chapterLink === key;
+    link.classList.toggle("is-active", active);
+    if (active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
   });
   refreshIndexLabel();
-}, { rootMargin: "-18% 0px -65% 0px", threshold: [0, .15, .4] });
+}
 
-chapters.forEach((chapter) => chapterObserver.observe(chapter));
-refreshIndexLabel();
+function scheduleChapterUpdate() {
+  if (!chapterFrame) chapterFrame = requestAnimationFrame(updateCurrentChapter);
+}
+
+window.addEventListener("scroll", scheduleChapterUpdate, { passive: true });
+window.addEventListener("resize", scheduleChapterUpdate);
+window.addEventListener("load", updateCurrentChapter);
+updateCurrentChapter();
 
 function updateProgress() {
   if (!progress) return;

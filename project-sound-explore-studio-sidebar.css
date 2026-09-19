@@ -474,10 +474,23 @@ figcaption {
   /* The project card carries the only h1 and the role summary, so it stays visible
      by default; only the chapter list and the next-case exit collapse. */
   .index-stack { display: grid; margin-top: 8px; }
-  .index-stack .chapter-list,
   .index-stack .next-project { display: none; }
-  .index-stack.is-open .chapter-list { display: grid; }
-  .index-stack.is-open .next-project { display: flex; }
+  .index-stack .chapter-list { display: none; }
+  /* The directory opens as a panel fixed under the chapter bar. Leaving it in
+     normal flow put it at the top of the document, so tapping the button
+     mid-scroll showed nothing. Being fixed also means opening it never shifts
+     the page underneath. */
+  .index-stack.is-open .chapter-list {
+    position: fixed;
+    z-index: 29;
+    top: 60px;
+    right: 8px;
+    left: 8px;
+    display: grid;
+    max-height: min(58vh, 420px);
+    overflow-y: auto;
+    box-shadow: 0 18px 40px #00000026;
+  }
   .publication [id] { scroll-margin-top: 72px; }
   .publication { margin-left: 0; }
   .hero-media img { min-height: 0; }

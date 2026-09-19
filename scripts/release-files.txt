@@ -41,4 +41,3 @@ assets/ai-zhihui/step-visual.png
 assets/ai-zhihui/step-result.png
 assets/ai-zhihui/poster-output.png
 assets/ai-zhihui/task-key-visual.jpg
-project-ai-zhihui.js
