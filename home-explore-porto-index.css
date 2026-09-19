@@ -5,7 +5,9 @@
   --muted: #666660;
   --line: #d2d2cc;
   --signal: #dc6758;
-  --index: clamp(390px, 37vw, 530px);
+  /* The sidebar was taking 474px of a 1280px viewport (37%). Narrowed so the
+     project evidence, not the index chrome, owns the screen. */
+  --index: clamp(288px, 24vw, 336px);
   --font: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
 }
 
@@ -152,7 +154,7 @@ img { display: block; width: 100%; }
 .case-entry__label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
 .case-entry__item strong { font-size: 16px; font-weight: 500; letter-spacing: -.02em; }
 .case-entry__q { font-size: 13px; line-height: 1.5; }
-.case-entry__role { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.case-entry__role { color: var(--muted); font-size: 13px; line-height: 1.5; }
 .case-entry__item--quiet strong { font-weight: 400; }
 .case-entry__item:hover,
 .case-entry__item:focus-visible { background: #ededea; }

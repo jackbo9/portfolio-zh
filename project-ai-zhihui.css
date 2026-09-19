@@ -12,7 +12,7 @@
 .zh-status { padding: 8px 12px; background: var(--accent); font-size: 12px; line-height: 1.5; }
 .zh-cover figure { padding: 24px; background: #dadfd8; display: grid; justify-items: center; align-content: center; gap: 14px; }
 .zh-cover figure img { width: min(100%,245px); height: auto; box-shadow: 0 12px 30px #10190f22; }
-.zh-case figcaption { font-size: 12px; line-height: 1.65; text-transform: none; letter-spacing: 0; }
+.zh-case figcaption { font-size: 13px; line-height: 1.65; text-transform: none; letter-spacing: 0; }
 .zh-roles { display: grid; gap: 20px; border-top: 1px solid var(--line); margin-top: 28px; padding-top: 22px; }
 .zh-roles strong { font-size: 14px; font-weight: 600; }
 .zh-roles p { margin: 8px 0 0; }
@@ -81,7 +81,7 @@
 .zh-cover .zh-cover-metric { margin: 0 0 14px; display: grid; gap: 4px; }
 .zh-cover .zh-cover-metric strong { font-size: 19px; font-weight: 600; line-height: 1.4; }
 .zh-cover .zh-cover-metric span { font-size: 14px; line-height: 1.5; color: #4d5348; }
-.zh-cover .zh-cover-note { display: block; font-size: 12px; color: #6b7163; margin: 0 0 18px; }
+.zh-cover .zh-cover-note { display: block; font-size: 13.5px; color: #5f6459; margin: 0 0 18px; }
 
 .zh-timing { display: grid; gap: 20px; margin: 28px 0 24px; padding: 22px; border: 1px solid var(--line); background: #f0f1ea; }
 .zh-timing figure { margin: 0; display: grid; gap: 14px; }

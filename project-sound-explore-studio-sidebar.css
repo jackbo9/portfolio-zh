@@ -192,10 +192,18 @@ figcaption,
 
 figcaption {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 6px 14px;
   padding: 10px 14px;
   background: var(--paper);
 }
+
+/* Evidence figures keep the whole artifact visible and put the full-size file
+   one tap away, instead of asking readers to pinch-zoom the page to read it. */
+.figure-zoom { display: inline-flex; min-height: 44px; align-items: center; color: var(--ink); font-size: 12.5px; text-decoration: none; border-bottom: 1px solid var(--muted); }
+.figure-zoom:hover,
+.figure-zoom:focus-visible { border-color: var(--ink); }
 
 .opening,
 .mechanism,
