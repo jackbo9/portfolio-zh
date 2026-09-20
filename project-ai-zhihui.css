@@ -54,6 +54,17 @@
 .zh-build .zh-ba figcaption { color: #20271f; }
 .zh-build .zh-ba figcaption b { display: inline-block; margin-right: 8px; padding: 3px 7px; font-size: 11px; font-weight: 600; background: #dfe3d6; color: #20271f; }
 .zh-build .zh-ba figcaption b.is-after { background: var(--accent); }
+
+/* Older production route against AI-generated material. Kept separate from .zh-ba so
+   the same-task model/composition pair is not read as this across-events comparison.
+   The badge styling is not scoped to .zh-build: this block sits in a light section. */
+.zh-poster-ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 12px; margin: 22px 0 14px; }
+.zh-poster-ba figure { margin: 0; display: grid; gap: 10px; align-content: start; justify-items: start; }
+.zh-poster-ba img { display: block; width: 100%; max-width: 250px; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #f2f2ef; }
+.zh-poster-ba figcaption { display: block; width: 100%; max-width: 300px; font-size: 13px; line-height: 1.65; color: var(--muted); }
+.zh-poster-ba figcaption b { display: inline-block; margin-right: 8px; padding: 3px 7px; font-size: 11px; font-weight: 600; background: #dfe3d6; color: #20271f; }
+.zh-poster-ba figcaption b.is-after { background: var(--accent); }
+.zh-poster-ba figcaption a { margin-left: 6px; }
 .zh-crop-study { display: grid; gap: 24px; margin: 26px 0; align-items: start; }
 .zh-crop-study img { object-fit: cover; }
 .zh-crop-study .portrait { aspect-ratio: 2 / 3; object-position: center top; max-height: 380px; }

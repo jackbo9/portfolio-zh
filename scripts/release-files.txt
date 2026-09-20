@@ -41,3 +41,5 @@ assets/ai-zhihui/step-visual.png
 assets/ai-zhihui/step-result.png
 assets/ai-zhihui/poster-output.png
 assets/ai-zhihui/task-key-visual.jpg
+assets/ai-zhihui/poster-before-old.jpg
+assets/ai-zhihui/poster-after-ai.jpg
