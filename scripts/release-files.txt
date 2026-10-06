@@ -43,3 +43,30 @@ assets/ai-zhihui/poster-output.png
 assets/ai-zhihui/task-key-visual.jpg
 assets/ai-zhihui/poster-before-old.jpg
 assets/ai-zhihui/poster-after-ai.jpg
+
+# YouFeed design implementation
+project-youfeed.css
+assets/youfeed/current/home.png
+assets/youfeed/current/recording.png
+assets/youfeed/current/review.png
+assets/youfeed/current/complete.png
+
+# YouFeed reconstructed field guide
+assets/youfeed/field-guide/manifest.json
+assets/youfeed/field-guide/prompt-02-en.png
+assets/youfeed/field-guide/prompt-02-zh.png
+assets/youfeed/field-guide/prompt-03-en.png
+assets/youfeed/field-guide/prompt-03-zh.png
+assets/youfeed/field-guide/recovery-e1-en.png
+assets/youfeed/field-guide/recovery-e1-zh.png
+assets/youfeed/field-guide/region-a-en.png
+assets/youfeed/field-guide/region-a-zh.png
+assets/youfeed/field-guide/region-p-en.png
+assets/youfeed/field-guide/region-p-zh.png
+assets/youfeed/field-guide/region-t-en.png
+assets/youfeed/field-guide/region-t-zh.png
+output/pdf/youfeed-field-guide-bilingual-spreads.pdf
+output/pdf/youfeed-field-guide-bilingual.pdf
+output/pdf/youfeed-field-guide-en.pdf
+output/pdf/youfeed-field-guide-zh.pdf
+output/pdf/youfeed-field-quick-reference-bilingual.pdf

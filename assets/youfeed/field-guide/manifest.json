@@ -1,0 +1,146 @@
+{
+  "region-a-zh.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      40,
+      364.89,
+      203,
+      674.89
+    ]
+  },
+  "region-p-zh.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      216,
+      364.89,
+      379,
+      674.89
+    ]
+  },
+  "region-t-zh.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      392,
+      364.89,
+      555,
+      674.89
+    ]
+  },
+  "prompt-02-zh.png": {
+    "width": 500,
+    "height": 342,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 4,
+    "crop_pdf_points": [
+      305,
+      503.89,
+      555,
+      674.89
+    ]
+  },
+  "prompt-03-zh.png": {
+    "width": 500,
+    "height": 342,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 4,
+    "crop_pdf_points": [
+      40,
+      320.89,
+      290,
+      491.89
+    ]
+  },
+  "recovery-e1-zh.png": {
+    "width": 1048,
+    "height": 310,
+    "source": "youfeed-field-guide-zh.pdf",
+    "page": 5,
+    "crop_pdf_points": [
+      31,
+      435.09000000000003,
+      555,
+      589.89
+    ]
+  },
+  "region-a-en.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      40,
+      364.89,
+      203,
+      674.89
+    ]
+  },
+  "region-p-en.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      216,
+      364.89,
+      379,
+      674.89
+    ]
+  },
+  "region-t-en.png": {
+    "width": 326,
+    "height": 620,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 2,
+    "crop_pdf_points": [
+      392,
+      364.89,
+      555,
+      674.89
+    ]
+  },
+  "prompt-02-en.png": {
+    "width": 500,
+    "height": 342,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 4,
+    "crop_pdf_points": [
+      305,
+      503.89,
+      555,
+      674.89
+    ]
+  },
+  "prompt-03-en.png": {
+    "width": 500,
+    "height": 342,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 4,
+    "crop_pdf_points": [
+      40,
+      320.89,
+      290,
+      491.89
+    ]
+  },
+  "recovery-e1-en.png": {
+    "width": 1048,
+    "height": 310,
+    "source": "youfeed-field-guide-en.pdf",
+    "page": 5,
+    "crop_pdf_points": [
+      31,
+      435.09000000000003,
+      555,
+      589.89
+    ]
+  }
+}

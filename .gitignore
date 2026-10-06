@@ -34,3 +34,10 @@ output/pdf/*
 !output/pdf/Junyan_Lu_CV_EN.pdf
 !output/pdf/Junyan_Lu_CV_UX_Research_CN.pdf
 !output/pdf/Junyan_Lu_CV_UX_Research_EN.pdf
+
+# Published YouFeed guide downloads
+!output/pdf/youfeed-field-guide-bilingual-spreads.pdf
+!output/pdf/youfeed-field-guide-bilingual.pdf
+!output/pdf/youfeed-field-quick-reference-bilingual.pdf
+!output/pdf/youfeed-field-guide-zh.pdf
+!output/pdf/youfeed-field-guide-en.pdf
