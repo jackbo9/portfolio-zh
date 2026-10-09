@@ -41,3 +41,8 @@ output/pdf/*
 !output/pdf/youfeed-field-quick-reference-bilingual.pdf
 !output/pdf/youfeed-field-guide-zh.pdf
 !output/pdf/youfeed-field-guide-en.pdf
+
+# Local archives, code index and deployment state
+.local/
+.codegraph/
+.vercel/
